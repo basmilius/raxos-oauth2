@@ -1,0 +1,31 @@
+{
+	"name": "raxos/oauth2",
+	"description": "OAuth2 for raxos/router.",
+	"license": "mit",
+	"minimum-stability": "stable",
+	"type": "library",
+	"version": "dev-master",
+	"authors": [
+		{
+			"name": "Bas Milius",
+			"email": "bas@mili.us"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Raxos\\OAuth2\\": "src/Raxos/OAuth2"
+		}
+	},
+	"config": {
+		"platform": {
+			"php": "8.0"
+		}
+	},
+	"require": {
+		"jetbrains/phpstorm-attributes": "^1.0",
+        "raxos/cache": "dev-master",
+        "raxos/foundation": "dev-master",
+        "raxos/http": "dev-master",
+        "raxos/router": "dev-master"
+	}
+}
