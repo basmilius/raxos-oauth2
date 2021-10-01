@@ -39,7 +39,7 @@ final class TokenResponseType extends AbstractResponseType
     {
         $accessToken = $this->tokenFactory->generateAccessToken();
 
-        $this->tokenFactory->saveAccessToken($client->getClientId(), $owner, $scope, $accessToken, 3600);
+        $this->tokenFactory->saveAccessToken($client, $owner, $scope, $accessToken, 3600, null);
 
         $state = $state !== null ? '&state=' . urlencode($state) : '';
 

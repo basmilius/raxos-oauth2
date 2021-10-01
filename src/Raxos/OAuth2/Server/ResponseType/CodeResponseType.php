@@ -40,7 +40,7 @@ final class CodeResponseType extends AbstractResponseType
     {
         $authorizationCode = $this->tokenFactory->generateAuthorizationCode();
 
-        $this->tokenFactory->saveAuthorizationCode($client->getClientId(), $owner, $redirectUri, $scope, $authorizationCode, $state);
+        $this->tokenFactory->saveAuthorizationCode($client, $owner, $redirectUri, $scope, $authorizationCode, $state);
 
         $join = str_contains($redirectUri, '?') ? '&' : '?';
         $state = $state !== null ? '&state=' . urlencode($state) : '';

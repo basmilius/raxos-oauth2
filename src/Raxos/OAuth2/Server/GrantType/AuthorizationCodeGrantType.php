@@ -18,6 +18,7 @@ use Raxos\OAuth2\Server\Error\InvalidGrantException;
 use Raxos\OAuth2\Server\Error\InvalidRequestException;
 use Raxos\OAuth2\Server\Error\RedirectUriMismatchException;
 use Raxos\Router\Effect\Effect;
+use Raxos\Router\Response\JsonResponse;
 use Raxos\Router\Response\Response;
 use Raxos\Router\Router;
 use function urldecode;
@@ -45,7 +46,7 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
         $redirectUri = $request->post()->get('redirect_uri')
             ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');
 
-        $authorizationCode = $this->tokenFactory->getAuthorizationCode($code) ?? throw new InvalidGrantException('Authorization code doesn\'t exist or is invalid for the client.');
+        $authorizationCode = $this->tokenFactory->getAuthorizationCode($client, $code) ?? throw new InvalidGrantException('Authorization code doesn\'t exist or is invalid for the client.');
         $redirectUri = urldecode($redirectUri);
 
         if ($authorizationCode->isExpired()) {
@@ -55,6 +56,21 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
         if ($authorizationCode->getRedirectUri() !== $redirectUri) {
             throw new RedirectUriMismatchException();
         }
+
+        $accessToken = $this->tokenFactory->generateAccessToken();
+        $refreshToken = $this->tokenFactory->generateRefreshToken();
+
+        $this->tokenFactory->saveRefreshToken($client, $authorizationCode->getOwner(), $authorizationCode->getScope(), $refreshToken);
+        $this->tokenFactory->saveAccessToken($client, $authorizationCode->getOwner(), $authorizationCode->getScope(), $accessToken, 3600, $refreshToken);
+        $this->tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
+
+        return new JsonResponse($router, [
+            'access_token' => $accessToken,
+            'token_type' => 'Bearer',
+            'scope' => $authorizationCode->getScope(),
+            'expires_in' => 3600,
+            'refresh_token' => $refreshToken
+        ]);
     }
 
 }

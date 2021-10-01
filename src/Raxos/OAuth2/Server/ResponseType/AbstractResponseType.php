@@ -45,6 +45,8 @@ abstract class AbstractResponseType implements ResponseTypeInterface
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
+     *
+     * @noinspection PhpPureAttributeCanBeAddedInspection
      */
     public function handle(Router $router, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Effect|Response
     {

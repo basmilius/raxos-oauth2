@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Raxos\OAuth2\Server;
 
 use Raxos\OAuth2\Server\Client\ClientFactoryInterface;
+use Raxos\OAuth2\Server\GrantType\AuthorizationCodeGrantType;
+use Raxos\OAuth2\Server\GrantType\RefreshTokenGrantType;
 use Raxos\OAuth2\Server\ResponseType\CodeResponseType;
 use Raxos\OAuth2\Server\ResponseType\TokenResponseType;
 use Raxos\OAuth2\Server\Scope\ScopeFactoryInterface;
@@ -29,8 +31,8 @@ abstract class OAuth2Server
 {
 
     public const GRANT_TYPES = [
-        'authorization_code' => null,
-        'refresh_token' => null
+        'authorization_code' => AuthorizationCodeGrantType::class,
+        'refresh_token' => RefreshTokenGrantType::class
     ];
 
     public const RESPONSE_TYPES = [

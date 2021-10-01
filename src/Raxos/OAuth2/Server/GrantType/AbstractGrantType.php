@@ -46,6 +46,8 @@ class AbstractGrantType implements GrantTypeInterface
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
+     *
+     * @noinspection PhpPureAttributeCanBeAddedInspection
      */
     public function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response
     {

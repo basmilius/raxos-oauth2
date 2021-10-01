@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\Error;
 
+use JetBrains\PhpStorm\ExpectedValues;
 use Raxos\Http\HttpCode;
 
 /**
@@ -39,7 +40,8 @@ final class InvalidGrantException extends OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
      */
-    public final function getResponseCode(): int
+    #[ExpectedValues(valuesFromClass: HttpCode::class)]
+	public final function getResponseCode(): int
     {
         return HttpCode::BAD_REQUEST;
     }

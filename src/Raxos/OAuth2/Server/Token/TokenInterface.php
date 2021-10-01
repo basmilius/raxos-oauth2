@@ -23,6 +23,33 @@ interface TokenInterface
 {
 
     /**
+     * Gets the owner of the token.
+     *
+     * @return mixed
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 2.0.0
+     */
+    public function getOwner(): mixed;
+
+    /**
+     * Gets the scope for this token.
+     *
+     * @return string
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 2.0.0
+     */
+    public function getScope(): string;
+
+    /**
+     * Gets the token value.
+     *
+     * @return string
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 2.0.0
+     */
+    public function getToken(): string;
+
+    /**
      * Returns TRUE if the token is expired.
      *
      * @return bool

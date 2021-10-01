@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Raxos\OAuth2\Server;
 
 use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 use Raxos\Foundation\Util\Base64;
-use Raxos\Foundation\Util\Debug;
 use Raxos\Http\HttpCode;
 use Raxos\Http\HttpRequest;
 use Raxos\OAuth2\Server\Client\ClientInterface;
@@ -23,14 +23,17 @@ use Raxos\OAuth2\Server\Error\InvalidRequestException;
 use Raxos\OAuth2\Server\Error\OAuth2ServerException;
 use Raxos\OAuth2\Server\Error\RedirectUriMismatchException;
 use Raxos\OAuth2\Server\Error\UnsupportedGrantTypeException;
+use Raxos\OAuth2\Server\GrantType\AbstractGrantType;
 use Raxos\OAuth2\Server\ResponseType\AbstractResponseType;
 use Raxos\Router\Attribute\Get;
 use Raxos\Router\Attribute\Post;
 use Raxos\Router\Controller\Controller;
 use Raxos\Router\Effect\Effect;
+use Raxos\Router\Effect\VoidEffect;
 use Raxos\Router\Response\Response;
 use Raxos\Router\Router;
 use function array_key_exists;
+use function count;
 use function explode;
 use function Latte\request;
 use function str_contains;
@@ -55,7 +58,10 @@ abstract class OAuth2Controller extends Controller
      *
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
+     *
+     * @noinspection PhpAttributeCanBeAddedToOverriddenMemberInspection
      */
+    #[Pure]
     public function __construct(Router $router, protected OAuth2Server $oAuth2, protected HttpRequest $request)
     {
         parent::__construct($router);
@@ -125,6 +131,47 @@ abstract class OAuth2Controller extends Controller
     }
 
     /**
+     * Invoked when POST /revoke is requested.
+     *
+     * @return Effect
+     * @throws OAuth2ServerException
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 2.0.0
+     */
+    #[Post('/revoke')]
+    protected final function postRevoke(): Effect
+    {
+        $client = $this->ensureClientFromHeader();
+        $token = $this->request->post()->get('token');
+        $tokenTypeHint = $this->request->post()->get('token_type_hint');
+        $tokenFactory = $this->oAuth2->getTokenFactory();
+
+        if ($token !== null) {
+            if ($tokenTypeHint === 'access_token' && ($accessToken = $tokenFactory->getAccessToken($client, $token)) !== null) {
+                $tokenFactory->revokeAccessToken($client, $accessToken);
+            } else if ($tokenTypeHint === 'authorization_code' && ($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
+                $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
+            } else if ($tokenTypeHint === 'refresh_token' && ($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
+                $tokenFactory->revokeRefreshToken($client, $refreshToken);
+            } else {
+                if (($accessToken = $tokenFactory->getAccessToken($client, $token)) !== null) {
+                    $tokenFactory->revokeAccessToken($client, $accessToken);
+                } else if (($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
+                    $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
+                } else if (($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
+                    $tokenFactory->revokeRefreshToken($client, $refreshToken);
+                }
+            }
+        }
+
+        $this->router
+            ->getResponseRegistry()
+            ->responseCode(HttpCode::OK);
+
+        return new VoidEffect($this->router);
+    }
+
+    /**
      * Invoked when POST /token is requested.
      *
      * @return Effect|Response
@@ -135,9 +182,13 @@ abstract class OAuth2Controller extends Controller
     #[Post('/token')]
     protected final function postToken(): Effect|Response
     {
-        [$client] = $this->ensureClientForToken();
+        [$client, $grantType] = $this->ensureClientForToken();
 
-        Debug::printDie($client);
+        $grantType = OAuth2Server::GRANT_TYPES[$grantType] ?? throw new UnsupportedGrantTypeException();
+        /** @var AbstractGrantType $grantType */
+        $grantType = new $grantType($this->oAuth2->getTokenFactory());
+
+        return $grantType->handle($this->router, $this->request, $client);
     }
 
     /**
@@ -212,21 +263,16 @@ abstract class OAuth2Controller extends Controller
     }
 
     /**
-     * Ensures a client for the token request.
+     * Ensures a client from the authorization header.
      *
-     * @return array
+     * @return ClientInterface
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
      */
-    private function ensureClientForToken(): array
+    private function ensureClientFromHeader(): ClientInterface
     {
         $authorization = request()->headers()->get('authorization') ?? throw new InvalidRequestException('Missing header: "Authorization" is required.');
-        $grantType = request()->post()->get('grant_type') ?? throw new InvalidRequestException('Missing parameter: "grant_type" is required.');
-
-        if (!array_key_exists($grantType, OAuth2Server::GRANT_TYPES)) {
-            throw new UnsupportedGrantTypeException();
-        }
 
         [$authorizationType, $authorizationValue] = explode(' ', $authorization, 2);
 
@@ -250,6 +296,30 @@ abstract class OAuth2Controller extends Controller
 
         if ($client === null || !$client->isSecretValid($clientSecret)) {
             throw new InvalidClientException();
+        }
+
+        return $client;
+    }
+
+    /**
+     * Ensures a client for the token request.
+     *
+     * @return array
+     * @throws OAuth2ServerException
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 2.0.0
+     */
+    #[ArrayShape([
+        ClientInterface::class,
+        'string'
+    ])]
+    private function ensureClientForToken(): array
+    {
+        $client = $this->ensureClientFromHeader();
+        $grantType = request()->post()->get('grant_type') ?? throw new InvalidRequestException('Missing parameter: "grant_type" is required.');
+
+        if (!array_key_exists($grantType, OAuth2Server::GRANT_TYPES)) {
+            throw new UnsupportedGrantTypeException();
         }
 
         return [$client, $grantType];
