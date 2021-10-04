@@ -54,14 +54,13 @@ interface TokenFactoryInterface
     /**
      * Gets an access token instance.
      *
-     * @param ClientInterface $client
      * @param string $token
      *
      * @return AccessTokenInterface|null
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
      */
-    public function getAccessToken(ClientInterface $client, string $token): ?AccessTokenInterface;
+    public function getAccessToken(string $token): ?AccessTokenInterface;
 
     /**
      * Gets an access token by its associated (refresh) token.
@@ -78,26 +77,24 @@ interface TokenFactoryInterface
     /**
      * Gets an authorization code instance.
      *
-     * @param ClientInterface $client
      * @param string $code
      *
      * @return AuthorizationCodeInterface|null
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
      */
-    public function getAuthorizationCode(ClientInterface $client, string $code): ?AuthorizationCodeInterface;
+    public function getAuthorizationCode(string $code): ?AuthorizationCodeInterface;
 
     /**
      * Gets a refresh token instance.
      *
-     * @param ClientInterface $client
      * @param string $token
      *
      * @return RefreshTokenInterface|null
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
      */
-    public function getRefreshToken(ClientInterface $client, string $token): ?RefreshTokenInterface;
+    public function getRefreshToken(string $token): ?RefreshTokenInterface;
 
     /**
      * Revokes the given access token.

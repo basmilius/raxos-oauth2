@@ -23,6 +23,15 @@ interface TokenInterface
 {
 
     /**
+     * Gets the client id associated with this token.
+     *
+     * @return string
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 2.0.0
+     */
+    public function getClientId(): string;
+
+    /**
      * Gets the owner of the token.
      *
      * @return mixed
@@ -57,5 +66,16 @@ interface TokenInterface
      * @since 2.0.0
      */
     public function isExpired(): bool;
+
+    /**
+     * Returns TRUE if the given scope is allowed by the token.
+     *
+     * @param string $scope
+     *
+     * @return bool
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 2.0.0
+     */
+    public function isScopeAllowed(string $scope): bool;
 
 }

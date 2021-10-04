@@ -147,18 +147,18 @@ abstract class OAuth2Controller extends Controller
         $tokenFactory = $this->oAuth2->getTokenFactory();
 
         if ($token !== null) {
-            if ($tokenTypeHint === 'access_token' && ($accessToken = $tokenFactory->getAccessToken($client, $token)) !== null) {
+            if ($tokenTypeHint === 'access_token' && ($accessToken = $tokenFactory->getAccessToken($token)) !== null) {
                 $tokenFactory->revokeAccessToken($client, $accessToken);
-            } else if ($tokenTypeHint === 'authorization_code' && ($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
+            } else if ($tokenTypeHint === 'authorization_code' && ($authorizationCode = $tokenFactory->getAuthorizationCode($token)) !== null) {
                 $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
-            } else if ($tokenTypeHint === 'refresh_token' && ($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
+            } else if ($tokenTypeHint === 'refresh_token' && ($refreshToken = $tokenFactory->getRefreshToken($token)) !== null) {
                 $tokenFactory->revokeRefreshToken($client, $refreshToken);
             } else {
-                if (($accessToken = $tokenFactory->getAccessToken($client, $token)) !== null) {
+                if (($accessToken = $tokenFactory->getAccessToken($token)) !== null) {
                     $tokenFactory->revokeAccessToken($client, $accessToken);
-                } else if (($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
+                } else if (($authorizationCode = $tokenFactory->getAuthorizationCode($token)) !== null) {
                     $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
-                } else if (($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
+                } else if (($refreshToken = $tokenFactory->getRefreshToken($token)) !== null) {
                     $tokenFactory->revokeRefreshToken($client, $refreshToken);
                 }
             }
