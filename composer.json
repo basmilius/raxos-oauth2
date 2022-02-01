@@ -4,7 +4,6 @@
 	"license": "mit",
 	"minimum-stability": "stable",
 	"type": "library",
-	"version": "dev-master",
 	"authors": [
 		{
 			"name": "Bas Milius",
@@ -23,9 +22,9 @@
 	},
 	"require": {
 		"jetbrains/phpstorm-attributes": "^1.0",
-        "raxos/cache": "dev-master",
-        "raxos/foundation": "dev-master",
-        "raxos/http": "dev-master",
-        "raxos/router": "dev-master"
+        "raxos/cache": "1.0.0",
+        "raxos/foundation": "1.0.0",
+        "raxos/http": "1.0.0",
+        "raxos/router": "1.0.0"
 	}
 }
