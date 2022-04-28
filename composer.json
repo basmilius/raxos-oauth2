@@ -22,9 +22,9 @@
 	},
 	"require": {
 		"jetbrains/phpstorm-attributes": "^1.0",
-        "raxos/cache": "1.0.0",
-        "raxos/foundation": "1.0.0",
-        "raxos/http": "1.0.0",
-        "raxos/router": "1.0.0"
+        "raxos/cache": "*",
+        "raxos/foundation": "*",
+        "raxos/http": "*",
+        "raxos/router": "*"
 	}
 }
