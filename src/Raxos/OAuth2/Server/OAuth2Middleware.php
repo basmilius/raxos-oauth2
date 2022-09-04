@@ -56,9 +56,10 @@ abstract class OAuth2Middleware extends Middleware
      */
     public function handle(): Effect|Response|bool|null
     {
+        /** @var HttpRequest $request */
         $request = Singleton::get(HttpRequest::class);
 
-        $authorization = $request->headers()->get('authorization');
+        $authorization = $request->headers->get('authorization');
 
         if ($authorization === null || !str_starts_with($authorization, 'Bearer ')) {
             throw new InvalidRequestException('Missing required bearer token in "Authorization" header.');
