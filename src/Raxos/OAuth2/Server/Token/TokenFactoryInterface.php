@@ -1,13 +1,4 @@
 <?php
-/*
- * Copyright (c) 2017 - 2021 - Bas Milius <bas@mili.us>
- *
- * This file is part of the Latte Framework package.
- *
- * For the full copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\Token;
@@ -77,24 +68,26 @@ interface TokenFactoryInterface
     /**
      * Gets an authorization code instance.
      *
+     * @param ClientInterface $client
      * @param string $code
      *
      * @return AuthorizationCodeInterface|null
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
      */
-    public function getAuthorizationCode(string $code): ?AuthorizationCodeInterface;
+    public function getAuthorizationCode(ClientInterface $client, string $code): ?AuthorizationCodeInterface;
 
     /**
      * Gets a refresh token instance.
      *
+     * @param ClientInterface $client
      * @param string $token
      *
      * @return RefreshTokenInterface|null
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
      */
-    public function getRefreshToken(string $token): ?RefreshTokenInterface;
+    public function getRefreshToken(ClientInterface $client, string $token): ?RefreshTokenInterface;
 
     /**
      * Revokes the given access token.

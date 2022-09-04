@@ -1,13 +1,4 @@
 <?php
-/*
- * Copyright (c) 2017 - 2021 - Bas Milius <bas@mili.us>
- *
- * This file is part of the Latte Framework package.
- *
- * For the full copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server;
@@ -51,47 +42,11 @@ abstract class OAuth2Server
      * @since 2.0.0
      */
     public function __construct(
-        protected ClientFactoryInterface $clientFactory,
-        protected ScopeFactoryInterface $scopeFactory,
-        protected TokenFactoryInterface $tokenFactory
+        public readonly ClientFactoryInterface $clientFactory,
+        public readonly ScopeFactoryInterface $scopeFactory,
+        public readonly TokenFactoryInterface $tokenFactory
     )
     {
-    }
-
-    /**
-     * Gets the client factory instance.
-     *
-     * @return ClientFactoryInterface
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
-     */
-    public final function getClientFactory(): ClientFactoryInterface
-    {
-        return $this->clientFactory;
-    }
-
-    /**
-     * Gets the scope factory instance.
-     *
-     * @return ScopeFactoryInterface
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
-     */
-    public final function getScopeFactory(): ScopeFactoryInterface
-    {
-        return $this->scopeFactory;
-    }
-
-    /**
-     * Gets the token factory instance.
-     *
-     * @return TokenFactoryInterface
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
-     */
-    public final function getTokenFactory(): TokenFactoryInterface
-    {
-        return $this->tokenFactory;
     }
 
     /**

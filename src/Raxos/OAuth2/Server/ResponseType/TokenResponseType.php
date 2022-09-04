@@ -1,18 +1,9 @@
 <?php
-/*
- * Copyright (c) 2017 - 2021 - Bas Milius <bas@mili.us>
- *
- * This file is part of the Latte Framework package.
- *
- * For the full copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\ResponseType;
 
-use Raxos\Http\HttpCode;
+use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\Router\Effect\Effect;
 use Raxos\Router\Effect\RedirectEffect;
@@ -43,7 +34,7 @@ final class TokenResponseType extends AbstractResponseType
 
         $state = $state !== null ? '&state=' . urlencode($state) : '';
 
-        return new RedirectEffect($router, "{$redirectUri}#code={$accessToken}&token_type=Bearer&expires_in=3600{$state}", HttpCode::SEE_OTHER);
+        return new RedirectEffect($router, "{$redirectUri}#code={$accessToken}&token_type=Bearer&expires_in=3600{$state}", HttpResponseCode::SEE_OTHER);
     }
 
 }

@@ -1,13 +1,4 @@
 <?php
-/*
- * Copyright (c) 2017 - 2021 - Bas Milius <bas@mili.us>
- *
- * This file is part of the Latte Framework package.
- *
- * For the full copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server;
@@ -15,7 +6,7 @@ namespace Raxos\OAuth2\Server;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use Raxos\Foundation\Util\Base64;
-use Raxos\Http\HttpCode;
+use Raxos\Http\HttpResponseCode;
 use Raxos\Http\HttpRequest;
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\InvalidClientException;
@@ -35,7 +26,6 @@ use Raxos\Router\Router;
 use function array_key_exists;
 use function count;
 use function explode;
-use function Latte\request;
 use function str_contains;
 use function urlencode;
 
@@ -58,11 +48,13 @@ abstract class OAuth2Controller extends Controller
      *
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
-     *
-     * @noinspection PhpAttributeCanBeAddedToOverriddenMemberInspection
      */
     #[Pure]
-    public function __construct(Router $router, protected OAuth2Server $oAuth2, protected HttpRequest $request)
+    public function __construct(
+        Router $router,
+        protected readonly OAuth2Server $oAuth2,
+        protected readonly HttpRequest $request
+    )
     {
         parent::__construct($router);
     }
@@ -91,9 +83,9 @@ abstract class OAuth2Controller extends Controller
             'response_type' => $responseType,
             'scope' => $scope,
             'scopes' => $this->oAuth2
-                ->getScopeFactory()
+                ->scopeFactory
                 ->convertScopes($this->oAuth2
-                    ->getScopeFactory()
+                    ->scopeFactory
                     ->convertScopeString($scope)),
             'state' => $state
         ]);
@@ -116,16 +108,16 @@ abstract class OAuth2Controller extends Controller
 
         [$client, , $redirectUri, $responseType, $scope, $state] = $this->ensureClientForAuthorize();
 
-        if (!request()->post()->has('authorize')) {
+        if (!$this->request->post->has('authorize')) {
             $join = str_contains($redirectUri, '?') ? '&' : '?';
             $state = $state !== null ? '&state=' . urlencode($state) : '';
 
-            return $this->redirect("{$redirectUri}{$join}error=access_denied{$state}", HttpCode::SEE_OTHER);
+            return $this->redirect("{$redirectUri}{$join}error=access_denied{$state}", HttpResponseCode::SEE_OTHER);
         }
 
         $responseType = OAuth2Server::RESPONSE_TYPES[$responseType] ?? throw new UnsupportedGrantTypeException();
         /** @var AbstractResponseType $responseType */
-        $responseType = new $responseType($this->oAuth2->getTokenFactory());
+        $responseType = new $responseType($this->oAuth2->tokenFactory);
 
         return $responseType->handle($this->router, $client, $this->oAuth2->getOwner(), $redirectUri, $scope, $state);
     }
@@ -142,23 +134,23 @@ abstract class OAuth2Controller extends Controller
     protected final function postRevoke(): Effect
     {
         $client = $this->ensureClientFromHeader();
-        $token = $this->request->post()->get('token');
-        $tokenTypeHint = $this->request->post()->get('token_type_hint');
-        $tokenFactory = $this->oAuth2->getTokenFactory();
+        $token = $this->request->post->get('token');
+        $tokenTypeHint = $this->request->post->get('token_type_hint');
+        $tokenFactory = $this->oAuth2->tokenFactory;
 
         if ($token !== null) {
             if ($tokenTypeHint === 'access_token' && ($accessToken = $tokenFactory->getAccessToken($token)) !== null) {
                 $tokenFactory->revokeAccessToken($client, $accessToken);
-            } else if ($tokenTypeHint === 'authorization_code' && ($authorizationCode = $tokenFactory->getAuthorizationCode($token)) !== null) {
+            } else if ($tokenTypeHint === 'authorization_code' && ($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
                 $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
-            } else if ($tokenTypeHint === 'refresh_token' && ($refreshToken = $tokenFactory->getRefreshToken($token)) !== null) {
+            } else if ($tokenTypeHint === 'refresh_token' && ($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
                 $tokenFactory->revokeRefreshToken($client, $refreshToken);
             } else {
                 if (($accessToken = $tokenFactory->getAccessToken($token)) !== null) {
                     $tokenFactory->revokeAccessToken($client, $accessToken);
-                } else if (($authorizationCode = $tokenFactory->getAuthorizationCode($token)) !== null) {
+                } else if (($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
                     $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
-                } else if (($refreshToken = $tokenFactory->getRefreshToken($token)) !== null) {
+                } else if (($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
                     $tokenFactory->revokeRefreshToken($client, $refreshToken);
                 }
             }
@@ -166,7 +158,7 @@ abstract class OAuth2Controller extends Controller
 
         $this->router
             ->getResponseRegistry()
-            ->responseCode(HttpCode::OK);
+            ->responseCode(HttpResponseCode::OK);
 
         return new VoidEffect($this->router);
     }
@@ -186,7 +178,7 @@ abstract class OAuth2Controller extends Controller
 
         $grantType = OAuth2Server::GRANT_TYPES[$grantType] ?? throw new UnsupportedGrantTypeException();
         /** @var AbstractGrantType $grantType */
-        $grantType = new $grantType($this->oAuth2->getTokenFactory());
+        $grantType = new $grantType($this->oAuth2->tokenFactory);
 
         return $grantType->handle($this->router, $this->request, $client);
     }
@@ -229,21 +221,12 @@ abstract class OAuth2Controller extends Controller
     ])]
     private function ensureClientForAuthorize(): array
     {
-        $clientId = $this->request->queryString()->get('client_id')
-            ?? throw new InvalidRequestException('Missing parameter: "client_id" is required.');
+        $clientId = $this->request->queryString->get('client_id') ?? throw new InvalidRequestException('Missing parameter: "client_id" is required.');
+        $redirectUri = $this->request->queryString->get('redirect_uri') ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');
+        $responseType = $this->request->queryString->get('response_type') ?? throw new InvalidRequestException('Missing parameter: "response_type" is required.');
+        $scope = $this->request->queryString->get('scope') ?? throw new InvalidRequestException('Missing parameter: "scope" is required.');
 
-        $redirectUri = $this->request->queryString()->get('redirect_uri')
-            ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');
-
-        $responseType = $this->request->queryString()->get('response_type')
-            ?? throw new InvalidRequestException('Missing parameter: "response_type" is required.');
-
-        $scope = $this->request->queryString()->get('scope')
-            ?? throw new InvalidRequestException('Missing parameter: "scope" is required.');
-
-        $client = $this->oAuth2
-                ->getClientFactory()
-                ->getClient($clientId) ?? throw new InvalidClientException();
+        $client = $this->oAuth2->clientFactory->getClient($clientId) ?? throw new InvalidClientException();
 
         if (!$client->isRedirectUriAllowed($redirectUri)) {
             throw new RedirectUriMismatchException();
@@ -253,13 +236,11 @@ abstract class OAuth2Controller extends Controller
             throw new UnsupportedGrantTypeException();
         }
 
-        $this->oAuth2
-            ->getScopeFactory()
-            ->ensureValidScopes($this->oAuth2
-                ->getScopeFactory()
-                ->convertScopeString($scope));
+        $this->oAuth2->scopeFactory->ensureValidScopes(
+            $this->oAuth2->scopeFactory->convertScopeString($scope)
+        );
 
-        return [$client, $clientId, $redirectUri, $responseType, $scope, request()->queryString()->get('state')];
+        return [$client, $clientId, $redirectUri, $responseType, $scope, $this->request->queryString->get('state')];
     }
 
     /**
@@ -272,7 +253,7 @@ abstract class OAuth2Controller extends Controller
      */
     private function ensureClientFromHeader(): ClientInterface
     {
-        $authorization = request()->headers()->get('authorization') ?? throw new InvalidRequestException('Missing header: "Authorization" is required.');
+        $authorization = $this->request->headers->get('authorization') ?? throw new InvalidRequestException('Missing header: "Authorization" is required.');
 
         [$authorizationType, $authorizationValue] = explode(' ', $authorization, 2);
 
@@ -292,7 +273,7 @@ abstract class OAuth2Controller extends Controller
             $clientSecret
         ] = $authorizationValue;
 
-        $client = $this->oAuth2->getClientFactory()->getClient($clientId);
+        $client = $this->oAuth2->clientFactory->getClient($clientId);
 
         if ($client === null || !$client->isSecretValid($clientSecret)) {
             throw new InvalidClientException();
@@ -316,7 +297,7 @@ abstract class OAuth2Controller extends Controller
     private function ensureClientForToken(): array
     {
         $client = $this->ensureClientFromHeader();
-        $grantType = request()->post()->get('grant_type') ?? throw new InvalidRequestException('Missing parameter: "grant_type" is required.');
+        $grantType = $this->request->post->get('grant_type') ?? throw new InvalidRequestException('Missing parameter: "grant_type" is required.');
 
         if (!array_key_exists($grantType, OAuth2Server::GRANT_TYPES)) {
             throw new UnsupportedGrantTypeException();

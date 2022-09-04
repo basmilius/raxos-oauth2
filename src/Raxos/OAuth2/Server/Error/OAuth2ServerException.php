@@ -1,20 +1,10 @@
 <?php
-/*
- * Copyright (c) 2017 - 2021 - Bas Milius <bas@mili.us>
- *
- * This file is part of the Latte Framework package.
- *
- * For the full copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\Error;
 
 use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\ExpectedValues;
-use Raxos\Http\HttpCode;
+use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Error\OAuth2Exception;
 
 /**
@@ -39,12 +29,11 @@ abstract class OAuth2ServerException extends OAuth2Exception
     /**
      * Gets the error response code.
      *
-     * @return int
+     * @return HttpResponseCode
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
      */
-    #[ExpectedValues(valuesFromClass: HttpCode::class)]
-    public abstract function getResponseCode(): int;
+    public abstract function getResponseCode(): HttpResponseCode;
 
     /**
      * {@inheritdoc}

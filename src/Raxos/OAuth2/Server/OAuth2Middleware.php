@@ -1,13 +1,4 @@
 <?php
-/*
- * Copyright (c) 2017 - 2021 - Bas Milius <bas@mili.us>
- *
- * This file is part of the Latte Framework package.
- *
- * For the full copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server;
@@ -49,7 +40,10 @@ abstract class OAuth2Middleware extends Middleware
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
      */
-    public function __construct(Router $router, protected OAuth2Server $oAuth2)
+    public function __construct(
+        Router $router,
+        protected readonly OAuth2Server $oAuth2
+    )
     {
         parent::__construct($router);
     }
@@ -71,8 +65,8 @@ abstract class OAuth2Middleware extends Middleware
         }
 
         $authorization = substr($authorization, 7);
-        $clientFactory = $this->oAuth2->getClientFactory();
-        $tokenFactory = $this->oAuth2->getTokenFactory();
+        $clientFactory = $this->oAuth2->clientFactory;
+        $tokenFactory = $this->oAuth2->tokenFactory;
         $this->token = $tokenFactory->getAccessToken($authorization);
 
         if ($this->token === null) {

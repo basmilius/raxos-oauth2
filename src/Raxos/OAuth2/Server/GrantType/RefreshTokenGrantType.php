@@ -29,7 +29,7 @@ final class RefreshTokenGrantType extends AbstractGrantType
      */
     public final function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response
     {
-        $refreshToken = $request->post()->get('refresh_token') ?? throw new InvalidRequestException('Missing parameter: "refresh_token" is required.');
+        $refreshToken = $request->post->get('refresh_token') ?? throw new InvalidRequestException('Missing parameter: "refresh_token" is required.');
         $refreshToken = $this->tokenFactory->getRefreshToken($client, $refreshToken);
 
         if ($refreshToken === null || $refreshToken->isExpired()) {
