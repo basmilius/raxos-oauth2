@@ -220,16 +220,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.4.1",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379"
+                "reference": "67c26b443f348a51926030c83481b85718457d3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/69568e4293f4fa993f3b0e51c9723e1e17c41379",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/67c26b443f348a51926030c83481b85718457d3d",
+                "reference": "67c26b443f348a51926030c83481b85718457d3d",
                 "shasum": ""
             },
             "require": {
@@ -319,7 +319,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.4.1"
+                "source": "https://github.com/guzzle/psr7/tree/2.4.3"
             },
             "funding": [
                 {
@@ -335,7 +335,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-28T14:45:39+00:00"
+            "time": "2022-10-26T14:07:24+00:00"
         },
         {
             "name": "jetbrains/phpstorm-attributes",
@@ -585,16 +585,16 @@
         },
         {
             "name": "raxos/cache",
-            "version": "1.0.2",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/basmilius/raxos-cache.git",
-                "reference": "43332a63c0c13804cb71ec6201c9408a11a30852"
+                "reference": "194829b59a47f4385dc2f1ac840668b06808a9bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/basmilius/raxos-cache/zipball/43332a63c0c13804cb71ec6201c9408a11a30852",
-                "reference": "43332a63c0c13804cb71ec6201c9408a11a30852",
+                "url": "https://api.github.com/repos/basmilius/raxos-cache/zipball/194829b59a47f4385dc2f1ac840668b06808a9bb",
+                "reference": "194829b59a47f4385dc2f1ac840668b06808a9bb",
                 "shasum": ""
             },
             "require": {
@@ -621,22 +621,22 @@
             "description": "Cache clients and utilities.",
             "support": {
                 "issues": "https://github.com/basmilius/raxos-cache/issues",
-                "source": "https://github.com/basmilius/raxos-cache/tree/1.0.2"
+                "source": "https://github.com/basmilius/raxos-cache/tree/1.0.5"
             },
-            "time": "2022-09-04T13:42:03+00:00"
+            "time": "2022-09-04T14:09:41+00:00"
         },
         {
             "name": "raxos/foundation",
-            "version": "1.0.2",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/basmilius/raxos-foundation.git",
-                "reference": "a895562b2af6979bda7a8ec1a71d083dfb58d8fc"
+                "reference": "fd46d8859953c2d46935abb3064afd6ba75a46ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/basmilius/raxos-foundation/zipball/a895562b2af6979bda7a8ec1a71d083dfb58d8fc",
-                "reference": "a895562b2af6979bda7a8ec1a71d083dfb58d8fc",
+                "url": "https://api.github.com/repos/basmilius/raxos-foundation/zipball/fd46d8859953c2d46935abb3064afd6ba75a46ef",
+                "reference": "fd46d8859953c2d46935abb3064afd6ba75a46ef",
                 "shasum": ""
             },
             "require": {
@@ -667,22 +667,22 @@
             "description": "Base stuff for all Raxos libraries.",
             "support": {
                 "issues": "https://github.com/basmilius/raxos-foundation/issues",
-                "source": "https://github.com/basmilius/raxos-foundation/tree/1.0.2"
+                "source": "https://github.com/basmilius/raxos-foundation/tree/1.0.5"
             },
-            "time": "2022-09-04T13:42:02+00:00"
+            "time": "2022-10-06T06:35:47+00:00"
         },
         {
             "name": "raxos/http",
-            "version": "1.0.2",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/basmilius/raxos-http.git",
-                "reference": "9e46edacd3328c4321a71948721a0ee11c39f860"
+                "reference": "e006c4afc09e7025865423e1154e6c9c437d8986"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/basmilius/raxos-http/zipball/9e46edacd3328c4321a71948721a0ee11c39f860",
-                "reference": "9e46edacd3328c4321a71948721a0ee11c39f860",
+                "url": "https://api.github.com/repos/basmilius/raxos-http/zipball/e006c4afc09e7025865423e1154e6c9c437d8986",
+                "reference": "e006c4afc09e7025865423e1154e6c9c437d8986",
                 "shasum": ""
             },
             "require": {
@@ -711,22 +711,22 @@
             "description": "Http client and foundation.",
             "support": {
                 "issues": "https://github.com/basmilius/raxos-http/issues",
-                "source": "https://github.com/basmilius/raxos-http/tree/1.0.2"
+                "source": "https://github.com/basmilius/raxos-http/tree/1.0.5"
             },
-            "time": "2022-09-04T13:42:03+00:00"
+            "time": "2022-09-04T14:09:41+00:00"
         },
         {
             "name": "raxos/router",
-            "version": "1.0.2",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/basmilius/raxos-router.git",
-                "reference": "0dbb289294f909229fcad063c9a635e1584e3fb1"
+                "reference": "74ccd693cedae8215c0a1aad16f09315fc45aba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/basmilius/raxos-router/zipball/0dbb289294f909229fcad063c9a635e1584e3fb1",
-                "reference": "0dbb289294f909229fcad063c9a635e1584e3fb1",
+                "url": "https://api.github.com/repos/basmilius/raxos-router/zipball/74ccd693cedae8215c0a1aad16f09315fc45aba7",
+                "reference": "74ccd693cedae8215c0a1aad16f09315fc45aba7",
                 "shasum": ""
             },
             "require": {
@@ -755,22 +755,22 @@
             "description": "A fast and simple router, built with php attributes.",
             "support": {
                 "issues": "https://github.com/basmilius/raxos-router/issues",
-                "source": "https://github.com/basmilius/raxos-router/tree/1.0.2"
+                "source": "https://github.com/basmilius/raxos-router/tree/1.0.5"
             },
-            "time": "2022-09-04T13:43:07+00:00"
+            "time": "2022-09-04T14:09:40+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.1.1",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918"
+                "reference": "1ee04c65529dea5d8744774d474e7cbd2f1206d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918",
-                "reference": "07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/1ee04c65529dea5d8744774d474e7cbd2f1206d3",
+                "reference": "1ee04c65529dea5d8744774d474e7cbd2f1206d3",
                 "shasum": ""
             },
             "require": {
@@ -779,7 +779,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.1-dev"
+                    "dev-main": "3.3-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -808,7 +808,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.1.1"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.2.0"
             },
             "funding": [
                 {
@@ -824,7 +824,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-25T11:15:52+00:00"
+            "time": "2022-11-25T10:21:52+00:00"
         }
     ],
     "packages-dev": [],

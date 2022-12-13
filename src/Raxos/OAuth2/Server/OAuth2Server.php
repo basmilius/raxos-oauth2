@@ -4,10 +4,8 @@ declare(strict_types=1);
 namespace Raxos\OAuth2\Server;
 
 use Raxos\OAuth2\Server\Client\ClientFactoryInterface;
-use Raxos\OAuth2\Server\GrantType\AuthorizationCodeGrantType;
-use Raxos\OAuth2\Server\GrantType\RefreshTokenGrantType;
-use Raxos\OAuth2\Server\ResponseType\CodeResponseType;
-use Raxos\OAuth2\Server\ResponseType\TokenResponseType;
+use Raxos\OAuth2\Server\GrantType\{AuthorizationCodeGrantType, RefreshTokenGrantType};
+use Raxos\OAuth2\Server\ResponseType\{CodeResponseType, TokenResponseType};
 use Raxos\OAuth2\Server\Scope\ScopeFactoryInterface;
 use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
 

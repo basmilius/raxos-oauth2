@@ -34,7 +34,7 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
         $code = $request->post->get('code') ?? throw new InvalidRequestException('Missing parameter: "code" is required.');
         $redirectUri = $request->post->get('redirect_uri') ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');
 
-        $authorizationCode = $this->tokenFactory->getAuthorizationCode($client, $code) ?? throw new InvalidGrantException('Authorization code doesn\'t exist or is invalid for the client.');
+        $authorizationCode = $this->tokenFactory->getAuthorizationCode($client, $code) ?? throw new InvalidGrantException("Authorization code doesn't exist or is invalid for the client.");
         $redirectUri = urldecode($redirectUri);
 
         if ($authorizationCode->isExpired()) {
