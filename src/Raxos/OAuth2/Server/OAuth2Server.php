@@ -19,12 +19,12 @@ use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
 abstract class OAuth2Server
 {
 
-    public const GRANT_TYPES = [
+    public const array GRANT_TYPES = [
         'authorization_code' => AuthorizationCodeGrantType::class,
         'refresh_token' => RefreshTokenGrantType::class
     ];
 
-    public const RESPONSE_TYPES = [
+    public const array RESPONSE_TYPES = [
         'code' => CodeResponseType::class,
         'token' => TokenResponseType::class
     ];
