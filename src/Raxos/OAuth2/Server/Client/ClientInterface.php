@@ -8,7 +8,7 @@ namespace Raxos\OAuth2\Server\Client;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Client
- * @since 2.0.0
+ * @since 1.0.16
  */
 interface ClientInterface
 {
@@ -18,7 +18,7 @@ interface ClientInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getClientId(): string;
 
@@ -29,7 +29,7 @@ interface ClientInterface
      *
      * @return bool
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function isRedirectUriAllowed(string $redirectUri): bool;
 
@@ -40,7 +40,7 @@ interface ClientInterface
      *
      * @return bool
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function isSecretValid(string $clientSecret): bool;
 

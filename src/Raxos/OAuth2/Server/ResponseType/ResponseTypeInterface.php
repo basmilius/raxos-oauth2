@@ -13,7 +13,7 @@ use Raxos\Router\Router;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\ResponseType
- * @since 2.0.0
+ * @since 1.0.16
  */
 interface ResponseTypeInterface
 {
@@ -30,7 +30,7 @@ interface ResponseTypeInterface
      *
      * @return Effect|Response
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function handle(Router $router, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Effect|Response;
 

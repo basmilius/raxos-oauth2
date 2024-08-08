@@ -5,11 +5,9 @@ namespace Raxos\OAuth2\Server\GrantType;
 
 use Raxos\Http\HttpRequest;
 use Raxos\OAuth2\Server\Client\ClientInterface;
-use Raxos\OAuth2\Server\Error\InvalidGrantException;
-use Raxos\OAuth2\Server\Error\InvalidRequestException;
+use Raxos\OAuth2\Server\Error\{InvalidGrantException, InvalidRequestException};
 use Raxos\Router\Effect\Effect;
-use Raxos\Router\Response\JsonResponse;
-use Raxos\Router\Response\Response;
+use Raxos\Router\Response\{JsonResponse, Response};
 use Raxos\Router\Router;
 
 /**
@@ -17,7 +15,7 @@ use Raxos\Router\Router;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\GrantType
- * @since 2.0.0
+ * @since 1.0.16
  */
 final class RefreshTokenGrantType extends AbstractGrantType
 {
@@ -25,9 +23,9 @@ final class RefreshTokenGrantType extends AbstractGrantType
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
-    public final function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response
+    public function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response
     {
         $refreshToken = $request->post->get('refresh_token') ?? throw new InvalidRequestException('Missing parameter: "refresh_token" is required.');
         $refreshToken = $this->tokenFactory->getRefreshToken($client, $refreshToken);
@@ -40,7 +38,10 @@ final class RefreshTokenGrantType extends AbstractGrantType
         $oldAccessToken = $this->tokenFactory->getAccessTokenByAssociatedToken($client, $refreshToken->getToken());
 
         $this->tokenFactory->saveAccessToken($client, $refreshToken->getOwner(), $refreshToken->getScope(), $accessToken, 3600, $refreshToken->getToken());
-        $this->tokenFactory->revokeAccessToken($client, $oldAccessToken);
+
+        if ($oldAccessToken !== null) {
+            $this->tokenFactory->revokeAccessToken($client, $oldAccessToken);
+        }
 
         return new JsonResponse($router, [
             'access_token' => $accessToken,

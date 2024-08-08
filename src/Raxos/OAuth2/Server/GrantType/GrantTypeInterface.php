@@ -15,7 +15,7 @@ use Raxos\Router\Router;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\GrantType
- * @since 2.0.0
+ * @since 1.0.16
  */
 interface GrantTypeInterface
 {
@@ -30,7 +30,7 @@ interface GrantTypeInterface
      * @return Effect|Response
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response;
 

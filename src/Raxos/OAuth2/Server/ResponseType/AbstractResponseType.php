@@ -5,8 +5,7 @@ namespace Raxos\OAuth2\Server\ResponseType;
 
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
-use Raxos\Router\Effect\Effect;
-use Raxos\Router\Effect\NotFoundEffect;
+use Raxos\Router\Effect\{Effect, NotFoundEffect};
 use Raxos\Router\Response\Response;
 use Raxos\Router\Router;
 
@@ -15,7 +14,7 @@ use Raxos\Router\Router;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\ResponseType
- * @since 2.0.0
+ * @since 1.0.16
  */
 abstract class AbstractResponseType implements ResponseTypeInterface
 {
@@ -26,7 +25,7 @@ abstract class AbstractResponseType implements ResponseTypeInterface
      * @param TokenFactoryInterface $tokenFactory
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function __construct(protected readonly TokenFactoryInterface $tokenFactory)
     {
@@ -35,9 +34,7 @@ abstract class AbstractResponseType implements ResponseTypeInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
-     *
-     * @noinspection PhpPureAttributeCanBeAddedInspection
+     * @since 1.0.16
      */
     public function handle(Router $router, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Effect|Response
     {

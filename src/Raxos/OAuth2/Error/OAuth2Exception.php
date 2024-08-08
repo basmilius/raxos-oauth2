@@ -10,7 +10,7 @@ use Raxos\Foundation\Error\RaxosException;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Error
- * @since 2.0.0
+ * @since 1.0.16
  */
 abstract class OAuth2Exception extends RaxosException
 {

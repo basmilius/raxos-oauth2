@@ -10,7 +10,7 @@ use Raxos\OAuth2\Server\Error\InvalidScopeException;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Scope
- * @since 2.0.0
+ * @since 1.0.16
  */
 interface ScopeFactoryInterface
 {
@@ -22,7 +22,7 @@ interface ScopeFactoryInterface
      *
      * @return string[]
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function convertScopeString(string $scopeString): array;
 
@@ -34,7 +34,7 @@ interface ScopeFactoryInterface
      * @return ScopeInterface[]
      * @throws InvalidScopeException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function convertScopes(array $scopes): array;
 
@@ -45,7 +45,7 @@ interface ScopeFactoryInterface
      *
      * @throws InvalidScopeException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function ensureValidScopes(array $scopes): void;
 
@@ -57,7 +57,7 @@ interface ScopeFactoryInterface
      * @return ScopeInterface
      * @throws InvalidScopeException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getScope(string $key): ScopeInterface;
 

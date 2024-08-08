@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\Error;
 
+use JetBrains\PhpStorm\Pure;
 use Raxos\Http\HttpResponseCode;
 
 /**
@@ -10,7 +11,7 @@ use Raxos\Http\HttpResponseCode;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Error
- * @since 2.0.0
+ * @since 1.0.16
  */
 final class InvalidScopeException extends OAuth2ServerException
 {
@@ -18,9 +19,10 @@ final class InvalidScopeException extends OAuth2ServerException
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
-    public final function getError(): string
+    #[Pure]
+    public function getError(): string
     {
         return 'invalid_scope';
     }
@@ -28,9 +30,10 @@ final class InvalidScopeException extends OAuth2ServerException
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
-    public final function getResponseCode(): HttpResponseCode
+    #[Pure]
+    public function getResponseCode(): HttpResponseCode
     {
         return HttpResponseCode::BAD_REQUEST;
     }

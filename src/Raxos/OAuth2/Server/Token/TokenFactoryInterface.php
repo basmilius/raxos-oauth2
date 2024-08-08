@@ -10,7 +10,7 @@ use Raxos\OAuth2\Server\Client\ClientInterface;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Token
- * @since 2.0.0
+ * @since 1.0.16
  */
 interface TokenFactoryInterface
 {
@@ -20,7 +20,7 @@ interface TokenFactoryInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function generateAccessToken(): string;
 
@@ -29,7 +29,7 @@ interface TokenFactoryInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function generateAuthorizationCode(): string;
 
@@ -38,7 +38,7 @@ interface TokenFactoryInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function generateRefreshToken(): string;
 
@@ -49,7 +49,7 @@ interface TokenFactoryInterface
      *
      * @return AccessTokenInterface|null
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getAccessToken(string $token): ?AccessTokenInterface;
 
@@ -61,7 +61,7 @@ interface TokenFactoryInterface
      *
      * @return AccessTokenInterface|null
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getAccessTokenByAssociatedToken(ClientInterface $client, string $token): ?AccessTokenInterface;
 
@@ -73,7 +73,7 @@ interface TokenFactoryInterface
      *
      * @return AuthorizationCodeInterface|null
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getAuthorizationCode(ClientInterface $client, string $code): ?AuthorizationCodeInterface;
 
@@ -85,7 +85,7 @@ interface TokenFactoryInterface
      *
      * @return RefreshTokenInterface|null
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getRefreshToken(ClientInterface $client, string $token): ?RefreshTokenInterface;
 
@@ -96,7 +96,7 @@ interface TokenFactoryInterface
      * @param AccessTokenInterface $accessToken
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function revokeAccessToken(ClientInterface $client, AccessTokenInterface $accessToken): void;
 
@@ -107,7 +107,7 @@ interface TokenFactoryInterface
      * @param AuthorizationCodeInterface $authorizationCode
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function revokeAuthorizationCode(ClientInterface $client, AuthorizationCodeInterface $authorizationCode): void;
 
@@ -118,7 +118,7 @@ interface TokenFactoryInterface
      * @param RefreshTokenInterface $refreshToken
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function revokeRefreshToken(ClientInterface $client, RefreshTokenInterface $refreshToken): void;
 
@@ -134,7 +134,7 @@ interface TokenFactoryInterface
      * @param string|null $refreshToken
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function saveAccessToken(ClientInterface $client, mixed $owner, string $scope, string $accessToken, int $expiresIn, ?string $refreshToken): void;
 
@@ -151,7 +151,7 @@ interface TokenFactoryInterface
      * @param string|null $state
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function saveAuthorizationCode(ClientInterface $client, mixed $owner, string $redirectUri, string $scope, string $authorizationCode, ?string $state = null): void;
 
@@ -165,7 +165,7 @@ interface TokenFactoryInterface
      * @param string $refreshToken
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function saveRefreshToken(ClientInterface $client, mixed $owner, string $scope, string $refreshToken): void;
 

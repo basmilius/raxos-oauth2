@@ -26,7 +26,7 @@ use function urlencode;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server
- * @since 2.0.0
+ * @since 1.0.16
  */
 abstract class OAuth2Controller extends Controller
 {
@@ -39,7 +39,7 @@ abstract class OAuth2Controller extends Controller
      * @param HttpRequest $request
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     #[Pure]
     public function __construct(
@@ -57,7 +57,7 @@ abstract class OAuth2Controller extends Controller
      * @return Effect|Response
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     #[Get('/authorize')]
     protected final function getAuthorize(): Effect|Response
@@ -89,7 +89,7 @@ abstract class OAuth2Controller extends Controller
      * @return Effect|Response
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     #[Post('/authorize')]
     protected final function postAuthorize(): Effect|Response
@@ -120,7 +120,7 @@ abstract class OAuth2Controller extends Controller
      * @return Effect
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     #[Post('/revoke')]
     protected final function postRevoke(): Effect
@@ -137,19 +137,17 @@ abstract class OAuth2Controller extends Controller
                 $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
             } else if ($tokenTypeHint === 'refresh_token' && ($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
                 $tokenFactory->revokeRefreshToken($client, $refreshToken);
-            } else {
-                if (($accessToken = $tokenFactory->getAccessToken($token)) !== null) {
-                    $tokenFactory->revokeAccessToken($client, $accessToken);
-                } else if (($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
-                    $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
-                } else if (($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
-                    $tokenFactory->revokeRefreshToken($client, $refreshToken);
-                }
+            } else if (($accessToken = $tokenFactory->getAccessToken($token)) !== null) {
+                $tokenFactory->revokeAccessToken($client, $accessToken);
+            } else if (($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
+                $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
+            } else if (($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
+                $tokenFactory->revokeRefreshToken($client, $refreshToken);
             }
         }
 
         $this->router
-            ->getResponseRegistry()
+            ->responseRegistry
             ->responseCode(HttpResponseCode::OK);
 
         return new VoidEffect($this->router);
@@ -161,7 +159,7 @@ abstract class OAuth2Controller extends Controller
      * @return Effect|Response
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     #[Post('/token')]
     protected final function postToken(): Effect|Response
@@ -180,7 +178,7 @@ abstract class OAuth2Controller extends Controller
      *
      * @return Effect|Response
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     protected abstract function onAuthorizeMissingOwner(): Effect|Response;
 
@@ -191,7 +189,7 @@ abstract class OAuth2Controller extends Controller
      *
      * @return Response
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     protected abstract function renderAuthorize(array $context): Response;
 
@@ -201,7 +199,7 @@ abstract class OAuth2Controller extends Controller
      * @return array
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     #[ArrayShape([
         ClientInterface::class,
@@ -241,7 +239,7 @@ abstract class OAuth2Controller extends Controller
      * @return ClientInterface
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     private function ensureClientFromHeader(): ClientInterface
     {
@@ -280,7 +278,7 @@ abstract class OAuth2Controller extends Controller
      * @return array
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     #[ArrayShape([
         ClientInterface::class,

@@ -12,7 +12,7 @@ use Raxos\OAuth2\Error\OAuth2Exception;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Error
- * @since 2.0.0
+ * @since 1.0.16
  */
 abstract class OAuth2ServerException extends OAuth2Exception
 {
@@ -22,7 +22,7 @@ abstract class OAuth2ServerException extends OAuth2Exception
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public abstract function getError(): string;
 
@@ -31,14 +31,14 @@ abstract class OAuth2ServerException extends OAuth2Exception
      *
      * @return HttpResponseCode
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public abstract function getResponseCode(): HttpResponseCode;
 
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     #[ArrayShape([
         'code' => 'int',

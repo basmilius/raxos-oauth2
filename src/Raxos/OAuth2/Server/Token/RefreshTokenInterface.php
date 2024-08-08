@@ -8,7 +8,7 @@ namespace Raxos\OAuth2\Server\Token;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Token
- * @since 2.0.0
+ * @since 1.0.16
  */
 interface RefreshTokenInterface extends TokenInterface
 {

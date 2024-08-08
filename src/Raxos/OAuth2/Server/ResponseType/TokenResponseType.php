@@ -5,8 +5,7 @@ namespace Raxos\OAuth2\Server\ResponseType;
 
 use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Server\Client\ClientInterface;
-use Raxos\Router\Effect\Effect;
-use Raxos\Router\Effect\RedirectEffect;
+use Raxos\Router\Effect\{Effect, RedirectEffect};
 use Raxos\Router\Response\Response;
 use Raxos\Router\Router;
 use function urlencode;
@@ -16,7 +15,7 @@ use function urlencode;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\ResponseType
- * @since 2.0.0
+ * @since 1.0.16
  */
 final class TokenResponseType extends AbstractResponseType
 {
@@ -24,7 +23,7 @@ final class TokenResponseType extends AbstractResponseType
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function handle(Router $router, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Effect|Response
     {

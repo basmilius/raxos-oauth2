@@ -8,7 +8,7 @@ namespace Raxos\OAuth2\Server\Scope;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Scope
- * @since 2.0.0
+ * @since 1.0.16
  */
 interface ScopeInterface
 {
@@ -18,7 +18,7 @@ interface ScopeInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getKey(): string;
 
@@ -27,7 +27,7 @@ interface ScopeInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getName(): string;
 
@@ -36,7 +36,7 @@ interface ScopeInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getDescription(): string;
 

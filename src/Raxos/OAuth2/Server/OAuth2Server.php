@@ -14,7 +14,7 @@ use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server
- * @since 2.0.0
+ * @since 1.0.16
  */
 abstract class OAuth2Server
 {
@@ -37,7 +37,7 @@ abstract class OAuth2Server
      * @param TokenFactoryInterface $tokenFactory
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function __construct(
         public readonly ClientFactoryInterface $clientFactory,
@@ -52,7 +52,7 @@ abstract class OAuth2Server
      *
      * @return mixed
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public abstract function getOwner(): mixed;
 
@@ -61,7 +61,7 @@ abstract class OAuth2Server
      *
      * @return bool
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public abstract function hasOwner(): bool;
 

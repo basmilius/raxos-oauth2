@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\Error;
 
+use JetBrains\PhpStorm\Pure;
 use Raxos\Http\HttpResponseCode;
 
 /**
@@ -10,7 +11,7 @@ use Raxos\Http\HttpResponseCode;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Error
- * @since 2.0.0
+ * @since 1.0.16
  */
 final class InvalidClientException extends OAuth2ServerException
 {
@@ -21,7 +22,7 @@ final class InvalidClientException extends OAuth2ServerException
      * @param string $message
      *
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function __construct(string $message = 'The client authentication failed.')
     {
@@ -31,9 +32,10 @@ final class InvalidClientException extends OAuth2ServerException
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
-    public final function getError(): string
+    #[Pure]
+    public function getError(): string
     {
         return 'invalid_client';
     }
@@ -41,9 +43,10 @@ final class InvalidClientException extends OAuth2ServerException
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
-    public final function getResponseCode(): HttpResponseCode
+    #[Pure]
+    public function getResponseCode(): HttpResponseCode
     {
         return HttpResponseCode::UNAUTHORIZED;
     }

@@ -5,12 +5,9 @@ namespace Raxos\OAuth2\Server\GrantType;
 
 use Raxos\Http\HttpRequest;
 use Raxos\OAuth2\Server\Client\ClientInterface;
-use Raxos\OAuth2\Server\Error\InvalidGrantException;
-use Raxos\OAuth2\Server\Error\InvalidRequestException;
-use Raxos\OAuth2\Server\Error\RedirectUriMismatchException;
+use Raxos\OAuth2\Server\Error\{InvalidGrantException, InvalidRequestException, RedirectUriMismatchException};
 use Raxos\Router\Effect\Effect;
-use Raxos\Router\Response\JsonResponse;
-use Raxos\Router\Response\Response;
+use Raxos\Router\Response\{JsonResponse, Response};
 use Raxos\Router\Router;
 use function urldecode;
 
@@ -19,7 +16,7 @@ use function urldecode;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\GrantType
- * @since 2.0.0
+ * @since 1.0.16
  */
 final class AuthorizationCodeGrantType extends AbstractGrantType
 {
@@ -27,9 +24,9 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
-    public final function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response
+    public function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response
     {
         $code = $request->post->get('code') ?? throw new InvalidRequestException('Missing parameter: "code" is required.');
         $redirectUri = $request->post->get('redirect_uri') ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');

@@ -8,7 +8,7 @@ namespace Raxos\OAuth2\Server\Token;
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Token
- * @since 2.0.0
+ * @since 1.0.16
  */
 interface TokenInterface
 {
@@ -18,7 +18,7 @@ interface TokenInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getClientId(): string;
 
@@ -27,7 +27,7 @@ interface TokenInterface
      *
      * @return mixed
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getOwner(): mixed;
 
@@ -36,7 +36,7 @@ interface TokenInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getScope(): string;
 
@@ -45,7 +45,7 @@ interface TokenInterface
      *
      * @return string
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function getToken(): string;
 
@@ -54,7 +54,7 @@ interface TokenInterface
      *
      * @return bool
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function isExpired(): bool;
 
@@ -65,7 +65,7 @@ interface TokenInterface
      *
      * @return bool
      * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @since 1.0.16
      */
     public function isScopeAllowed(string $scope): bool;
 
