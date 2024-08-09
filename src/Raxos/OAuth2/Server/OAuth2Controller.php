@@ -133,15 +133,15 @@ abstract class OAuth2Controller extends Controller
         if ($token !== null) {
             if ($tokenTypeHint === 'access_token' && ($accessToken = $tokenFactory->getAccessToken($token)) !== null) {
                 $tokenFactory->revokeAccessToken($client, $accessToken);
-            } else if ($tokenTypeHint === 'authorization_code' && ($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
+            } elseif ($tokenTypeHint === 'authorization_code' && ($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
                 $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
-            } else if ($tokenTypeHint === 'refresh_token' && ($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
+            } elseif ($tokenTypeHint === 'refresh_token' && ($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
                 $tokenFactory->revokeRefreshToken($client, $refreshToken);
-            } else if (($accessToken = $tokenFactory->getAccessToken($token)) !== null) {
+            } elseif (($accessToken = $tokenFactory->getAccessToken($token)) !== null) {
                 $tokenFactory->revokeAccessToken($client, $accessToken);
-            } else if (($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
+            } elseif (($authorizationCode = $tokenFactory->getAuthorizationCode($client, $token)) !== null) {
                 $tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
-            } else if (($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
+            } elseif (($refreshToken = $tokenFactory->getRefreshToken($client, $token)) !== null) {
                 $tokenFactory->revokeRefreshToken($client, $refreshToken);
             }
         }

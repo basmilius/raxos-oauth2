@@ -30,9 +30,7 @@ class AbstractGrantType implements GrantTypeInterface
      */
     public function __construct(
         protected readonly TokenFactoryInterface $tokenFactory
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

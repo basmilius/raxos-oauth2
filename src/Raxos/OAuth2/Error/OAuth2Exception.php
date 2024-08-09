@@ -12,7 +12,4 @@ use Raxos\Foundation\Error\RaxosException;
  * @package Raxos\OAuth2\Error
  * @since 1.0.16
  */
-abstract class OAuth2Exception extends RaxosException
-{
-
-}
+abstract class OAuth2Exception extends RaxosException {}

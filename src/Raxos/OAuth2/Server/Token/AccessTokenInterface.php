@@ -10,7 +10,4 @@ namespace Raxos\OAuth2\Server\Token;
  * @package Raxos\OAuth2\Server\Token
  * @since 1.0.16
  */
-interface AccessTokenInterface extends TokenInterface
-{
-
-}
+interface AccessTokenInterface extends TokenInterface {}

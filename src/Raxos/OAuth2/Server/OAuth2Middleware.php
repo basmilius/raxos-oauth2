@@ -39,9 +39,7 @@ abstract readonly class OAuth2Middleware implements MiddlewareInterface
      */
     public function __construct(
         protected OAuth2Server $oAuth2
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

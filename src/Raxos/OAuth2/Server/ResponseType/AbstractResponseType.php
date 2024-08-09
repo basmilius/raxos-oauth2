@@ -27,9 +27,7 @@ abstract class AbstractResponseType implements ResponseTypeInterface
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    public function __construct(protected readonly TokenFactoryInterface $tokenFactory)
-    {
-    }
+    public function __construct(protected readonly TokenFactoryInterface $tokenFactory) {}
 
     /**
      * {@inheritdoc}

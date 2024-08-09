@@ -2,7 +2,8 @@
 	"name": "raxos/oauth2",
 	"description": "OAuth2 for raxos/router.",
 	"license": "mit",
-	"minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable" : true,
 	"type": "library",
 	"authors": [
 		{
@@ -17,11 +18,18 @@
 	},
 	"config": {
 		"platform": {
-			"php": "8.1"
+			"php": "8.3"
 		}
 	},
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*",
+            "symlink": true
+        }
+    ],
 	"require": {
-		"jetbrains/phpstorm-attributes": "^1.0",
+		"jetbrains/phpstorm-attributes": "^1.1",
         "raxos/cache": "*",
         "raxos/foundation": "*",
         "raxos/http": "*",

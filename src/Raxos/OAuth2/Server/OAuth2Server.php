@@ -43,9 +43,7 @@ abstract class OAuth2Server
         public readonly ClientFactoryInterface $clientFactory,
         public readonly ScopeFactoryInterface $scopeFactory,
         public readonly TokenFactoryInterface $tokenFactory
-    )
-    {
-    }
+    ) {}
 
     /**
      * Gets the owner.
