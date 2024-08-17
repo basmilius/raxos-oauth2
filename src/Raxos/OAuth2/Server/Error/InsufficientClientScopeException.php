@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\Error;
 
-use JetBrains\PhpStorm\Pure;
 use Raxos\Http\HttpResponseCode;
 
 /**
@@ -26,29 +25,7 @@ final class InsufficientClientScopeException extends OAuth2ServerException
      */
     public function __construct(string $message = 'Insufficient client scope.')
     {
-        parent::__construct($message);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 1.0.16
-     */
-    #[Pure]
-    public function getError(): string
-    {
-        return 'insufficient_client_scope';
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 1.0.16
-     */
-    #[Pure]
-    public function getResponseCode(): HttpResponseCode
-    {
-        return HttpResponseCode::FORBIDDEN;
+        parent::__construct(HttpResponseCode::FORBIDDEN, 'insufficient_client_scope', $message);
     }
 
 }

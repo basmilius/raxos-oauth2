@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\Error;
 
-use JetBrains\PhpStorm\Pure;
 use Raxos\Http\HttpResponseCode;
 
 /**
@@ -26,29 +25,7 @@ final class RedirectUriMismatchException extends OAuth2ServerException
      */
     public function __construct(string $message = 'The redirect uri is missing or does not match.')
     {
-        parent::__construct($message);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 1.0.16
-     */
-    #[Pure]
-    public function getError(): string
-    {
-        return 'redirect_uri_mismatch';
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 1.0.16
-     */
-    #[Pure]
-    public function getResponseCode(): HttpResponseCode
-    {
-        return HttpResponseCode::BAD_REQUEST;
+        parent::__construct(HttpResponseCode::BAD_REQUEST, 'redirect_uri_mismatch', $message);
     }
 
 }

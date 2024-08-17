@@ -3,55 +3,39 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\Error;
 
-use JetBrains\PhpStorm\ArrayShape;
 use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Error\OAuth2Exception;
+use Throwable;
 
 /**
  * Class OAuth2ServerException
  *
  * @author Bas Milius <bas@glybe.nl>
  * @package Raxos\OAuth2\Server\Error
- * @since 1.0.16
+ * @since 1.0.17
  */
 abstract class OAuth2ServerException extends OAuth2Exception
 {
 
     /**
-     * Gets the error string.
+     * OAuth2ServerException constructor.
      *
-     * @return string
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 1.0.16
-     */
-    public abstract function getError(): string;
-
-    /**
-     * Gets the error response code.
+     * @param HttpResponseCode $responeCode
+     * @param string $error
+     * @param string $errorDescription
+     * @param Throwable|null $previous
      *
-     * @return HttpResponseCode
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 1.0.16
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.17
      */
-    public abstract function getResponseCode(): HttpResponseCode;
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 1.0.16
-     */
-    #[ArrayShape([
-        'code' => 'int',
-        'error' => 'string',
-        'error_description' => 'string'
-    ])]
-    public function jsonSerialize(): array
+    public function __construct(
+        public readonly HttpResponseCode $responeCode,
+        string $error,
+        string $errorDescription,
+        ?Throwable $previous = null
+    )
     {
-        return [
-            'code' => $this->getResponseCode(),
-            'error' => $this->getError(),
-            'error_description' => $this->getMessage()
-        ];
+        parent::__construct($responeCode, $error, $errorDescription, $previous);
     }
 
 }
