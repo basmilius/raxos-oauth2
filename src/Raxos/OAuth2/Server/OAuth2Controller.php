@@ -3,18 +3,17 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server;
 
-use JetBrains\PhpStorm\{ArrayShape, Pure};
+use JetBrains\PhpStorm\{ArrayShape};
 use Raxos\Foundation\Util\Base64;
-use Raxos\Http\{HttpRequest, HttpResponseCode};
+use Raxos\Http\{HttpResponseCode};
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, OAuth2ServerException, RedirectUriMismatchException, UnsupportedGrantTypeException};
 use Raxos\OAuth2\Server\GrantType\AbstractGrantType;
 use Raxos\OAuth2\Server\ResponseType\AbstractResponseType;
 use Raxos\Router\Attribute\{Get, Post};
-use Raxos\Router\Controller\Controller;
-use Raxos\Router\Effect\{Effect, VoidEffect};
+use Raxos\Router\Mixin\Responds;
+use Raxos\Router\Request\Request;
 use Raxos\Router\Response\Response;
-use Raxos\Router\Router;
 use function array_key_exists;
 use function count;
 use function explode;
@@ -28,45 +27,41 @@ use function urlencode;
  * @package Raxos\OAuth2\Server
  * @since 1.0.16
  */
-abstract class OAuth2Controller extends Controller
+abstract readonly class OAuth2Controller
 {
+
+    use Responds;
 
     /**
      * OAuth2Controller constructor.
      *
-     * @param Router $router
      * @param OAuth2Server $oAuth2
-     * @param HttpRequest $request
      *
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    #[Pure]
     public function __construct(
-        Router $router,
-        protected readonly OAuth2Server $oAuth2,
-        protected readonly HttpRequest $request
-    )
-    {
-        parent::__construct($router);
-    }
+        public OAuth2Server $oAuth2
+    ) {}
 
     /**
      * Invoked when GET /authorize is requested.
      *
-     * @return Effect|Response
+     * @param Request $request
+     *
+     * @return Response
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
     #[Get('/authorize')]
-    protected final function getAuthorize(): Effect|Response
+    protected final function getAuthorize(Request $request): Response
     {
         if (!$this->oAuth2->hasOwner()) {
             return $this->onAuthorizeMissingOwner();
         }
 
-        [$client, $clientId, $redirectUri, $responseType, $scope, $state] = $this->ensureClientForAuthorize();
+        [$client, $clientId, $redirectUri, $responseType, $scope, $state] = $this->ensureClientForAuthorize($request);
 
         return $this->renderAuthorize([
             'client' => $client,
@@ -86,48 +81,55 @@ abstract class OAuth2Controller extends Controller
     /**
      * Invoked when POST /authorize is requested.
      *
-     * @return Effect|Response
+     * @param Request $request
+     *
+     * @return Response
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
     #[Post('/authorize')]
-    protected final function postAuthorize(): Effect|Response
+    protected final function postAuthorize(Request $request): Response
     {
         if (!$this->oAuth2->hasOwner()) {
             return $this->onAuthorizeMissingOwner();
         }
 
-        [$client, , $redirectUri, $responseType, $scope, $state] = $this->ensureClientForAuthorize();
+        [$client, , $redirectUri, $responseType, $scope, $state] = $this->ensureClientForAuthorize($request);
 
-        if (!$this->request->post->has('authorize')) {
+        if (!$request->post->has('authorize')) {
             $join = str_contains($redirectUri, '?') ? '&' : '?';
             $state = $state !== null ? '&state=' . urlencode($state) : '';
 
-            return $this->redirect("{$redirectUri}{$join}error=access_denied{$state}", HttpResponseCode::SEE_OTHER);
+            return $this->redirect(
+                destination: "{$redirectUri}{$join}error=access_denied{$state}",
+                responseCode: HttpResponseCode::SEE_OTHER
+            );
         }
 
         $responseType = OAuth2Server::RESPONSE_TYPES[$responseType] ?? throw new UnsupportedGrantTypeException();
         /** @var AbstractResponseType $responseType */
         $responseType = new $responseType($this->oAuth2->tokenFactory);
 
-        return $responseType->handle($this->router, $client, $this->oAuth2->getOwner(), $redirectUri, $scope, $state);
+        return $responseType->handle($request, $client, $this->oAuth2->getOwner(), $redirectUri, $scope, $state);
     }
 
     /**
      * Invoked when POST /revoke is requested.
      *
-     * @return Effect
+     * @param Request $request
+     *
+     * @return Response
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
     #[Post('/revoke')]
-    protected final function postRevoke(): Effect
+    protected final function postRevoke(Request $request): Response
     {
-        $client = $this->ensureClientFromHeader();
-        $token = $this->request->post->get('token');
-        $tokenTypeHint = $this->request->post->get('token_type_hint');
+        $client = $this->ensureClientFromHeader($request);
+        $token = $request->post->get('token');
+        $tokenTypeHint = $request->post->get('token_type_hint');
         $tokenFactory = $this->oAuth2->tokenFactory;
 
         if ($token !== null) {
@@ -146,41 +148,39 @@ abstract class OAuth2Controller extends Controller
             }
         }
 
-        $this->router
-            ->responseRegistry
-            ->responseCode(HttpResponseCode::OK);
-
-        return new VoidEffect($this->router);
+        return $this->json(true, responseCode: HttpResponseCode::ACCEPTED);
     }
 
     /**
      * Invoked when POST /token is requested.
      *
-     * @return Effect|Response
+     * @param Request $request
+     *
+     * @return Response
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
     #[Post('/token')]
-    protected final function postToken(): Effect|Response
+    protected final function postToken(Request $request): Response
     {
-        [$client, $grantType] = $this->ensureClientForToken();
+        [$client, $grantType] = $this->ensureClientForToken($request);
 
+        /** @var class-string<AbstractGrantType> $grantType */
         $grantType = OAuth2Server::GRANT_TYPES[$grantType] ?? throw new UnsupportedGrantTypeException();
-        /** @var AbstractGrantType $grantType */
         $grantType = new $grantType($this->oAuth2->tokenFactory);
 
-        return $grantType->handle($this->router, $this->request, $client);
+        return $grantType->handle($request, $client);
     }
 
     /**
      * Invoked when an owner is missing when it's required.
      *
-     * @return Effect|Response
+     * @return Response
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    protected abstract function onAuthorizeMissingOwner(): Effect|Response;
+    protected abstract function onAuthorizeMissingOwner(): Response;
 
     /**
      * Renders the authorize screen.
@@ -196,6 +196,8 @@ abstract class OAuth2Controller extends Controller
     /**
      * Ensures a client for the authorize request.
      *
+     * @param Request $request
+     *
      * @return array
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
@@ -209,12 +211,12 @@ abstract class OAuth2Controller extends Controller
         'string',
         'string|null'
     ])]
-    private function ensureClientForAuthorize(): array
+    private function ensureClientForAuthorize(Request $request): array
     {
-        $clientId = $this->request->queryString->get('client_id') ?? throw new InvalidRequestException('Missing parameter: "client_id" is required.');
-        $redirectUri = $this->request->queryString->get('redirect_uri') ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');
-        $responseType = $this->request->queryString->get('response_type') ?? throw new InvalidRequestException('Missing parameter: "response_type" is required.');
-        $scope = $this->request->queryString->get('scope') ?? throw new InvalidRequestException('Missing parameter: "scope" is required.');
+        $clientId = $request->query->get('client_id') ?? throw new InvalidRequestException('Missing parameter: "client_id" is required.');
+        $redirectUri = $request->query->get('redirect_uri') ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');
+        $responseType = $request->query->get('response_type') ?? throw new InvalidRequestException('Missing parameter: "response_type" is required.');
+        $scope = $request->query->get('scope') ?? throw new InvalidRequestException('Missing parameter: "scope" is required.');
 
         $client = $this->oAuth2->clientFactory->getClient($clientId) ?? throw new InvalidClientException();
 
@@ -230,20 +232,22 @@ abstract class OAuth2Controller extends Controller
             $this->oAuth2->scopeFactory->convertScopeString($scope)
         );
 
-        return [$client, $clientId, $redirectUri, $responseType, $scope, $this->request->queryString->get('state')];
+        return [$client, $clientId, $redirectUri, $responseType, $scope, $request->query->get('state')];
     }
 
     /**
      * Ensures a client from the authorization header.
+     *
+     * @param Request $request
      *
      * @return ClientInterface
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    private function ensureClientFromHeader(): ClientInterface
+    private function ensureClientFromHeader(Request $request): ClientInterface
     {
-        $authorization = $this->request->headers->get('authorization') ?? throw new InvalidRequestException('Missing header: "Authorization" is required.');
+        $authorization = $request->headers->get('authorization') ?? throw new InvalidRequestException('Missing header: "Authorization" is required.');
 
         [$authorizationType, $authorizationValue] = explode(' ', $authorization, 2);
 
@@ -275,6 +279,8 @@ abstract class OAuth2Controller extends Controller
     /**
      * Ensures a client for the token request.
      *
+     * @param Request $request
+     *
      * @return array
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
@@ -284,10 +290,10 @@ abstract class OAuth2Controller extends Controller
         ClientInterface::class,
         'string'
     ])]
-    private function ensureClientForToken(): array
+    private function ensureClientForToken(Request $request): array
     {
-        $client = $this->ensureClientFromHeader();
-        $grantType = $this->request->post->get('grant_type') ?? throw new InvalidRequestException('Missing parameter: "grant_type" is required.');
+        $client = $this->ensureClientFromHeader($request);
+        $grantType = $request->post->get('grant_type') ?? throw new InvalidRequestException('Missing parameter: "grant_type" is required.');
 
         if (!array_key_exists($grantType, OAuth2Server::GRANT_TYPES)) {
             throw new UnsupportedGrantTypeException();

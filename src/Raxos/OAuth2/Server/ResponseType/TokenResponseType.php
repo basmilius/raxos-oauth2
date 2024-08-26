@@ -5,9 +5,9 @@ namespace Raxos\OAuth2\Server\ResponseType;
 
 use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Server\Client\ClientInterface;
-use Raxos\Router\Effect\{Effect, RedirectEffect};
+use Raxos\Router\Mixin\Responds;
+use Raxos\Router\Request\Request;
 use Raxos\Router\Response\Response;
-use Raxos\Router\Router;
 use function urlencode;
 
 /**
@@ -20,12 +20,14 @@ use function urlencode;
 final class TokenResponseType extends AbstractResponseType
 {
 
+    use Responds;
+
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    public function handle(Router $router, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Effect|Response
+    public function handle(Request $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Response
     {
         $accessToken = $this->tokenFactory->generateAccessToken();
 
@@ -33,7 +35,10 @@ final class TokenResponseType extends AbstractResponseType
 
         $state = $state !== null ? '&state=' . urlencode($state) : '';
 
-        return new RedirectEffect($router, "{$redirectUri}#code={$accessToken}&token_type=Bearer&expires_in=3600{$state}", HttpResponseCode::SEE_OTHER);
+        return $this->redirect(
+            destination: "{$redirectUri}#code={$accessToken}&token_type=Bearer&expires_in=3600{$state}",
+            responseCode: HttpResponseCode::SEE_OTHER
+        );
     }
 
 }

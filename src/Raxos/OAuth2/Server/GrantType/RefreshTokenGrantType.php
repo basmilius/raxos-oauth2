@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\GrantType;
 
-use Raxos\Http\HttpRequest;
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\{InvalidGrantException, InvalidRequestException};
-use Raxos\Router\Effect\Effect;
-use Raxos\Router\Response\{JsonResponse, Response};
-use Raxos\Router\Router;
+use Raxos\Router\Mixin\Responds;
+use Raxos\Router\Request\Request;
+use Raxos\Router\Response\Response;
 
 /**
  * Class RefreshTokenGrantType
@@ -20,12 +19,14 @@ use Raxos\Router\Router;
 final class RefreshTokenGrantType extends AbstractGrantType
 {
 
+    use Responds;
+
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    public function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response
+    public function handle(Request $request, ClientInterface $client): Response
     {
         $refreshToken = $request->post->get('refresh_token') ?? throw new InvalidRequestException('Missing parameter: "refresh_token" is required.');
         $refreshToken = $this->tokenFactory->getRefreshToken($client, $refreshToken);
@@ -43,7 +44,7 @@ final class RefreshTokenGrantType extends AbstractGrantType
             $this->tokenFactory->revokeAccessToken($client, $oldAccessToken);
         }
 
-        return new JsonResponse($router, [
+        return $this->json([
             'access_token' => $accessToken,
             'token_type' => 'Bearer',
             'scope' => $refreshToken->getScope(),

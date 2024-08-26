@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\GrantType;
 
-use Raxos\Http\HttpRequest;
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
-use Raxos\Router\Effect\{Effect, NotFoundEffect};
-use Raxos\Router\Response\Response;
-use Raxos\Router\Router;
+use Raxos\Router\Request\Request;
+use Raxos\Router\Response\{NotFoundResponse, Response};
 
 /**
  * Class AbstractGrantType
@@ -37,9 +35,9 @@ class AbstractGrantType implements GrantTypeInterface
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    public function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response
+    public function handle(Request $request, ClientInterface $client): Response
     {
-        return new NotFoundEffect($router);
+        return new NotFoundResponse();
     }
 
 }

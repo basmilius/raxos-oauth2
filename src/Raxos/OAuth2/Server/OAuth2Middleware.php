@@ -3,13 +3,12 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server;
 
-use Raxos\Http\HttpRequest;
-use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, InvalidTokenException, OAuth2ServerException};
-use Raxos\Router\Attribute\Injected;
-use Raxos\Router\Effect\Effect;
-use Raxos\Router\MiddlewareInterface;
+use Closure;
+use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, InvalidTokenException};
+use Raxos\Router\Contract\MiddlewareInterface;
+use Raxos\Router\Mixin\Responds;
+use Raxos\Router\Request\Request;
 use Raxos\Router\Response\Response;
-use Raxos\Router\Router;
 use function str_starts_with;
 use function substr;
 
@@ -23,11 +22,7 @@ use function substr;
 abstract readonly class OAuth2Middleware implements MiddlewareInterface
 {
 
-    #[Injected]
-    public HttpRequest $request;
-
-    #[Injected]
-    public Router $router;
+    use Responds;
 
     /**
      * OAuth2Middleware constructor.
@@ -43,16 +38,15 @@ abstract readonly class OAuth2Middleware implements MiddlewareInterface
 
     /**
      * {@inheritdoc}
-     * @throws OAuth2ServerException
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    public function handle(): Effect|Response|bool|null
+    public function handle(Request $request, Closure $next): Response
     {
-        $authorization = $this->request->headers->get('authorization');
+        $authorization = $request->headers->get('authorization');
 
         if ($authorization === null || !str_starts_with($authorization, 'Bearer ')) {
-            throw new InvalidRequestException('Missing required bearer token in "Authorization" header.');
+            return $this->error(new InvalidRequestException('Missing required bearer token in "Authorization" header.'));
         }
 
         $authorization = substr($authorization, 7);
@@ -61,20 +55,20 @@ abstract readonly class OAuth2Middleware implements MiddlewareInterface
         $token = $tokenFactory->getAccessToken($authorization);
 
         if ($token === null) {
-            throw new InvalidTokenException();
+            return $this->error(new InvalidTokenException());
         }
 
         $client = $clientFactory->getClient($token->getClientId());
 
         if ($token->isExpired()) {
-            throw new InvalidTokenException('The access_token has expired.');
+            return $this->error(new InvalidTokenException('The access_token has expired.'));
         }
 
         if ($client === null) {
-            throw new InvalidClientException();
+            return $this->error(new InvalidClientException());
         }
 
-        return true;
+        return $next($request);
     }
 
 }

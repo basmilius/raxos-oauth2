@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\GrantType;
 
-use Raxos\Http\HttpRequest;
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\{InvalidGrantException, InvalidRequestException, RedirectUriMismatchException};
-use Raxos\Router\Effect\Effect;
-use Raxos\Router\Response\{JsonResponse, Response};
-use Raxos\Router\Router;
+use Raxos\Router\Mixin\Responds;
+use Raxos\Router\Request\Request;
+use Raxos\Router\Response\Response;
 use function urldecode;
 
 /**
@@ -21,12 +20,14 @@ use function urldecode;
 final class AuthorizationCodeGrantType extends AbstractGrantType
 {
 
+    use Responds;
+
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    public function handle(Router $router, HttpRequest $request, ClientInterface $client): Effect|Response
+    public function handle(Request $request, ClientInterface $client): Response
     {
         $code = $request->post->get('code') ?? throw new InvalidRequestException('Missing parameter: "code" is required.');
         $redirectUri = $request->post->get('redirect_uri') ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');
@@ -49,7 +50,7 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
         $this->tokenFactory->saveAccessToken($client, $authorizationCode->getOwner(), $authorizationCode->getScope(), $accessToken, 3600, $refreshToken);
         $this->tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
 
-        return new JsonResponse($router, [
+        return $this->json([
             'access_token' => $accessToken,
             'token_type' => 'Bearer',
             'scope' => $authorizationCode->getScope(),

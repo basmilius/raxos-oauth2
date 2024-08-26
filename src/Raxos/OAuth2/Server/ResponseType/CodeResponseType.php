@@ -5,9 +5,9 @@ namespace Raxos\OAuth2\Server\ResponseType;
 
 use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Server\Client\ClientInterface;
-use Raxos\Router\Effect\{Effect, RedirectEffect};
+use Raxos\Router\Mixin\Responds;
+use Raxos\Router\Request\Request;
 use Raxos\Router\Response\Response;
-use Raxos\Router\Router;
 use function str_contains;
 use function urlencode;
 
@@ -21,12 +21,14 @@ use function urlencode;
 final class CodeResponseType extends AbstractResponseType
 {
 
+    use Responds;
+
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    public function handle(Router $router, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Effect|Response
+    public function handle(Request $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Response
     {
         $authorizationCode = $this->tokenFactory->generateAuthorizationCode();
 
@@ -35,7 +37,10 @@ final class CodeResponseType extends AbstractResponseType
         $join = str_contains($redirectUri, '?') ? '&' : '?';
         $state = $state !== null ? '&state=' . urlencode($state) : '';
 
-        return new RedirectEffect($router, "{$redirectUri}{$join}code={$authorizationCode}{$state}", HttpResponseCode::SEE_OTHER);
+        return $this->redirect(
+            destination: "{$redirectUri}{$join}code={$authorizationCode}{$state}",
+            responseCode: HttpResponseCode::SEE_OTHER
+        );
     }
 
 }

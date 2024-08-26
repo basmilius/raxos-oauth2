@@ -5,9 +5,8 @@ namespace Raxos\OAuth2\Server\ResponseType;
 
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
-use Raxos\Router\Effect\{Effect, NotFoundEffect};
-use Raxos\Router\Response\Response;
-use Raxos\Router\Router;
+use Raxos\Router\Request\Request;
+use Raxos\Router\Response\{NotFoundResponse, Response};
 
 /**
  * Class AbstractResponseType
@@ -34,9 +33,9 @@ abstract class AbstractResponseType implements ResponseTypeInterface
      * @author Bas Milius <bas@glybe.nl>
      * @since 1.0.16
      */
-    public function handle(Router $router, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Effect|Response
+    public function handle(Request $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Response
     {
-        return new NotFoundEffect($router);
+        return new NotFoundResponse();
     }
 
 }
