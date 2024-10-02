@@ -59,7 +59,7 @@ interface TokenInterface
     public function isExpired(): bool;
 
     /**
-     * Returns TRUE if the given scope is allowed by the token.
+     * Returns TRUE if the token allows the given scope.
      *
      * @param string $scope
      *

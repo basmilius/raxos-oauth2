@@ -183,7 +183,7 @@ abstract readonly class OAuth2Controller
     protected abstract function onAuthorizeMissingOwner(): Response;
 
     /**
-     * Renders the authorize screen.
+     * Renders the "authorize" screen.
      *
      * @param array $context
      *
@@ -194,7 +194,7 @@ abstract readonly class OAuth2Controller
     protected abstract function renderAuthorize(array $context): Response;
 
     /**
-     * Ensures a client for the authorize request.
+     * Ensures a client for the "authorize" request.
      *
      * @param Request $request
      *
