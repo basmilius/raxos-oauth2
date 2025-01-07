@@ -18,7 +18,7 @@
 	},
 	"config": {
 		"platform": {
-			"php": "8.3"
+			"php": "8.4"
 		}
 	},
     "repositories": [
@@ -29,7 +29,7 @@
         }
     ],
 	"require": {
-		"jetbrains/phpstorm-attributes": "^1.1",
+		"jetbrains/phpstorm-attributes": "^1.2",
         "raxos/cache": "*",
         "raxos/foundation": "*",
         "raxos/http": "*",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a79023735ff856528f0ee67211aad9c",
+    "content-hash": "2f0010b6574d9a4c469c06d09b4bbc8f",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -134,16 +134,16 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8"
+                "reference": "f9c436286ab2892c7db7be8c8da4ef61ccf7b455"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8",
-                "reference": "6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/f9c436286ab2892c7db7be8c8da4ef61ccf7b455",
+                "reference": "f9c436286ab2892c7db7be8c8da4ef61ccf7b455",
                 "shasum": ""
             },
             "require": {
@@ -197,7 +197,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/2.0.3"
+                "source": "https://github.com/guzzle/promises/tree/2.0.4"
             },
             "funding": [
                 {
@@ -213,7 +213,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-07-18T10:29:17+00:00"
+            "time": "2024-10-17T10:06:22+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -333,16 +333,16 @@
         },
         {
             "name": "jetbrains/phpstorm-attributes",
-            "version": "1.1",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JetBrains/phpstorm-attributes.git",
-                "reference": "22fb28d679deceedba8366dbae65cc8ebfc17e26"
+                "reference": "64de815a4509c29e00d5e3474087fd24c171afc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JetBrains/phpstorm-attributes/zipball/22fb28d679deceedba8366dbae65cc8ebfc17e26",
-                "reference": "22fb28d679deceedba8366dbae65cc8ebfc17e26",
+                "url": "https://api.github.com/repos/JetBrains/phpstorm-attributes/zipball/64de815a4509c29e00d5e3474087fd24c171afc2",
+                "reference": "64de815a4509c29e00d5e3474087fd24c171afc2",
                 "shasum": ""
             },
             "type": "library",
@@ -369,9 +369,9 @@
             ],
             "support": {
                 "issues": "https://youtrack.jetbrains.com/newIssue?project=WI",
-                "source": "https://github.com/JetBrains/phpstorm-attributes/tree/1.1"
+                "source": "https://github.com/JetBrains/phpstorm-attributes/tree/1.2"
             },
-            "time": "2023-09-01T08:50:25+00:00"
+            "time": "2024-10-11T10:46:19+00:00"
         },
         {
             "name": "psr/http-client",
@@ -583,11 +583,11 @@
             "dist": {
                 "type": "path",
                 "url": "../cache",
-                "reference": "78126db3d1382c4337cfea03c8fdf40987db67fb"
+                "reference": "210fea383e70c343cf35f88a7d7d4103fa828b47"
             },
             "require": {
                 "ext-redis": "*",
-                "jetbrains/phpstorm-attributes": "^1.1",
+                "jetbrains/phpstorm-attributes": "^1.2",
                 "raxos/foundation": "*"
             },
             "type": "library",
@@ -616,7 +616,7 @@
             "dist": {
                 "type": "path",
                 "url": "../foundation",
-                "reference": "d417a48fc8cf8d4c4e667f0792c5e856887fdacb"
+                "reference": "35a6ba52ca843a1f1ddb893094f7bdf576ca8409"
             },
             "require": {
                 "ext-dom": "*",
@@ -625,10 +625,13 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "ext-simplexml": "*",
-                "jetbrains/phpstorm-attributes": "^1.1"
+                "jetbrains/phpstorm-attributes": "^1.2"
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "src/Raxos/Foundation/functions.php"
+                ],
                 "psr-4": {
                     "Raxos\\Foundation\\": "src/Raxos/Foundation"
                 }
@@ -653,13 +656,13 @@
             "dist": {
                 "type": "path",
                 "url": "../http",
-                "reference": "8fe0a30d576f755aabe585605535e33e7049307c"
+                "reference": "2e8b9610b23358c7727c39fd2644211c74631b1d"
             },
             "require": {
                 "ext-ctype": "*",
                 "ext-mbstring": "*",
                 "guzzlehttp/guzzle": "^7",
-                "jetbrains/phpstorm-attributes": "^1.1",
+                "jetbrains/phpstorm-attributes": "^1.2",
                 "raxos/foundation": "*"
             },
             "type": "library",
@@ -684,18 +687,25 @@
         },
         {
             "name": "raxos/router",
-            "version": "dev-main",
+            "version": "dev-PHP-8.4",
             "dist": {
                 "type": "path",
                 "url": "../router",
-                "reference": "f9e7a37259ad38fd07d37d4c7f2ca66f55eea20b"
+                "reference": "742e660bd84bae902f73abc56a61e7b669a4a596"
             },
             "require": {
+                "ext-fileinfo": "*",
                 "ext-json": "*",
                 "ext-simplexml": "*",
-                "jetbrains/phpstorm-attributes": "^1.1",
+                "jetbrains/phpstorm-attributes": "^1.2",
                 "raxos/foundation": "*",
                 "raxos/http": "*"
+            },
+            "require-dev": {
+                "raxos/database": "*"
+            },
+            "suggest": {
+                "raxos/database": "to use the MapModel router parameter attribute."
             },
             "type": "library",
             "autoload": {
@@ -719,16 +729,16 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.5.0",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "0e0d29ce1f20deffb4ab1b016a7257c4f1e789a1"
+                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/0e0d29ce1f20deffb4ab1b016a7257c4f1e789a1",
-                "reference": "0e0d29ce1f20deffb4ab1b016a7257c4f1e789a1",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6",
+                "reference": "74c71c939a79f7d5bf3c1ce9f5ea37ba0114c6f6",
                 "shasum": ""
             },
             "require": {
@@ -736,12 +746,12 @@
             },
             "type": "library",
             "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
                 "branch-alias": {
                     "dev-main": "3.5-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -766,7 +776,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.5.0"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.5.1"
             },
             "funding": [
                 {
@@ -782,19 +792,19 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-18T09:32:20+00:00"
+            "time": "2024-09-25T14:20:29+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
+    "platform": {},
+    "platform-dev": {},
     "platform-overrides": {
-        "php": "8.3"
+        "php": "8.4"
     },
     "plugin-api-version": "2.6.0"
 }
