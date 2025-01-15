@@ -616,7 +616,7 @@
             "dist": {
                 "type": "path",
                 "url": "../foundation",
-                "reference": "35a6ba52ca843a1f1ddb893094f7bdf576ca8409"
+                "reference": "e16bc864d6d3405874bdbacd2a21ef78720000cc"
             },
             "require": {
                 "ext-dom": "*",
@@ -691,7 +691,7 @@
             "dist": {
                 "type": "path",
                 "url": "../router",
-                "reference": "742e660bd84bae902f73abc56a61e7b669a4a596"
+                "reference": "6fc752eebc24bff58a7a7c1c255974012d92e96a"
             },
             "require": {
                 "ext-fileinfo": "*",
