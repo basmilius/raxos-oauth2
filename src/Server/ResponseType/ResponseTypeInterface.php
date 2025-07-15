@@ -18,7 +18,7 @@ interface ResponseTypeInterface
 {
 
     /**
-     * Handles the authorize request.
+     * Handles the authorization request.
      *
      * @param Request $request
      * @param ClientInterface $client
