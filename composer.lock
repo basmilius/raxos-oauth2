@@ -583,7 +583,7 @@
             "dist": {
                 "type": "path",
                 "url": "../cache",
-                "reference": "c3e8f514559978c1d6bfc0794f92743a7c981449"
+                "reference": "d89109aa65dc8ec0aec9eb976e3bd6f6038b6913"
             },
             "require": {
                 "ext-redis": "*",
@@ -593,7 +593,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Raxos\\Cache\\": "src/Raxos/Cache"
+                    "Raxos\\Cache\\": "src/"
                 }
             },
             "license": [
@@ -616,7 +616,7 @@
             "dist": {
                 "type": "path",
                 "url": "../foundation",
-                "reference": "e16bc864d6d3405874bdbacd2a21ef78720000cc"
+                "reference": "e0721f683de17130c7a67d8c901e8db4f2e96c0a"
             },
             "require": {
                 "ext-dom": "*",
@@ -630,10 +630,10 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "src/Raxos/Foundation/functions.php"
+                    "src/functions.php"
                 ],
                 "psr-4": {
-                    "Raxos\\Foundation\\": "src/Raxos/Foundation"
+                    "Raxos\\Foundation\\": "src/"
                 }
             },
             "license": [
@@ -656,7 +656,7 @@
             "dist": {
                 "type": "path",
                 "url": "../http",
-                "reference": "a956aaf8c23a804645de06a50bd89fb44ca7e334"
+                "reference": "1f93168bf7062aaec5a331700b38157e7f97ec57"
             },
             "require": {
                 "ext-ctype": "*",
@@ -674,7 +674,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Raxos\\Http\\": "src/Raxos/Http"
+                    "Raxos\\Http\\": "src/"
                 }
             },
             "license": [
