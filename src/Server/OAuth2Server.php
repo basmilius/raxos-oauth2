@@ -12,7 +12,7 @@ use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
 /**
  * Class OAuth2Server
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server
  * @since 1.0.16
  */
@@ -36,7 +36,7 @@ abstract class OAuth2Server
      * @param ScopeFactoryInterface $scopeFactory
      * @param TokenFactoryInterface $tokenFactory
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function __construct(
@@ -49,7 +49,7 @@ abstract class OAuth2Server
      * Gets the owner.
      *
      * @return mixed
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public abstract function getOwner(): mixed;
@@ -58,7 +58,7 @@ abstract class OAuth2Server
      * Returns TRUE if there is an owner available.
      *
      * @return bool
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public abstract function hasOwner(): bool;

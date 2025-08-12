@@ -11,7 +11,7 @@ use Raxos\Router\Response\{NotFoundResponse, Response};
 /**
  * Class AbstractGrantType
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\GrantType
  * @since 1.0.16
  */
@@ -23,7 +23,7 @@ class AbstractGrantType implements GrantTypeInterface
      *
      * @param TokenFactoryInterface $tokenFactory
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function __construct(
@@ -32,7 +32,7 @@ class AbstractGrantType implements GrantTypeInterface
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function handle(Request $request, ClientInterface $client): Response

@@ -6,7 +6,7 @@ namespace Raxos\OAuth2\Server\Client;
 /**
  * Interface ClientFactoryInterface
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\Client
  * @since 1.0.16
  */
@@ -19,7 +19,7 @@ interface ClientFactoryInterface
      * @param string $clientId
      *
      * @return ClientInterface|null
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function getClient(string $clientId): ?ClientInterface;

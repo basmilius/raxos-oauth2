@@ -13,7 +13,7 @@ use function urlencode;
 /**
  * Class TokenResponseType
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\ResponseType
  * @since 1.0.16
  */
@@ -24,7 +24,7 @@ final class TokenResponseType extends AbstractResponseType
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function handle(Request $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Response

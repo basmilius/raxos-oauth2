@@ -8,7 +8,7 @@ use Raxos\OAuth2\Server\Client\ClientInterface;
 /**
  * Interface TokenFactoryInterface
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\Token
  * @since 1.0.16
  */
@@ -19,7 +19,7 @@ interface TokenFactoryInterface
      * Generates a new access token.
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function generateAccessToken(): string;
@@ -28,7 +28,7 @@ interface TokenFactoryInterface
      * Generates a new authorization code.
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function generateAuthorizationCode(): string;
@@ -37,7 +37,7 @@ interface TokenFactoryInterface
      * Generates a new refresh token.
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function generateRefreshToken(): string;
@@ -48,7 +48,7 @@ interface TokenFactoryInterface
      * @param string $token
      *
      * @return AccessTokenInterface|null
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function getAccessToken(string $token): ?AccessTokenInterface;
@@ -60,7 +60,7 @@ interface TokenFactoryInterface
      * @param string $token
      *
      * @return AccessTokenInterface|null
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function getAccessTokenByAssociatedToken(ClientInterface $client, string $token): ?AccessTokenInterface;
@@ -72,7 +72,7 @@ interface TokenFactoryInterface
      * @param string $code
      *
      * @return AuthorizationCodeInterface|null
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function getAuthorizationCode(ClientInterface $client, string $code): ?AuthorizationCodeInterface;
@@ -84,7 +84,7 @@ interface TokenFactoryInterface
      * @param string $token
      *
      * @return RefreshTokenInterface|null
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function getRefreshToken(ClientInterface $client, string $token): ?RefreshTokenInterface;
@@ -95,7 +95,7 @@ interface TokenFactoryInterface
      * @param ClientInterface $client
      * @param AccessTokenInterface $accessToken
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function revokeAccessToken(ClientInterface $client, AccessTokenInterface $accessToken): void;
@@ -106,7 +106,7 @@ interface TokenFactoryInterface
      * @param ClientInterface $client
      * @param AuthorizationCodeInterface $authorizationCode
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function revokeAuthorizationCode(ClientInterface $client, AuthorizationCodeInterface $authorizationCode): void;
@@ -117,7 +117,7 @@ interface TokenFactoryInterface
      * @param ClientInterface $client
      * @param RefreshTokenInterface $refreshToken
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function revokeRefreshToken(ClientInterface $client, RefreshTokenInterface $refreshToken): void;
@@ -133,7 +133,7 @@ interface TokenFactoryInterface
      * @param int $expiresIn
      * @param string|null $refreshToken
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function saveAccessToken(ClientInterface $client, mixed $owner, string $scope, string $accessToken, int $expiresIn, ?string $refreshToken): void;
@@ -150,7 +150,7 @@ interface TokenFactoryInterface
      * @param string $authorizationCode
      * @param string|null $state
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function saveAuthorizationCode(ClientInterface $client, mixed $owner, string $redirectUri, string $scope, string $authorizationCode, ?string $state = null): void;
@@ -164,7 +164,7 @@ interface TokenFactoryInterface
      * @param string $scope
      * @param string $refreshToken
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function saveRefreshToken(ClientInterface $client, mixed $owner, string $scope, string $refreshToken): void;

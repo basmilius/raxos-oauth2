@@ -11,7 +11,7 @@ use Raxos\Router\Response\Response;
 /**
  * Interface GrantTypeInterface
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\GrantType
  * @since 1.0.16
  */
@@ -26,7 +26,7 @@ interface GrantTypeInterface
      *
      * @return Response
      * @throws OAuth2ServerException
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function handle(Request $request, ClientInterface $client): Response;

@@ -10,7 +10,7 @@ use Raxos\Router\Response\Response;
 /**
  * Interface ResponseTypeInterface
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\ResponseType
  * @since 1.0.16
  */
@@ -28,7 +28,7 @@ interface ResponseTypeInterface
      * @param string|null $state
      *
      * @return Response
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function handle(Request $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Response;

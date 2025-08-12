@@ -6,7 +6,7 @@ namespace Raxos\OAuth2\Server\Scope;
 /**
  * Interface ScopeInterface
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\Scope
  * @since 1.0.16
  */
@@ -17,7 +17,7 @@ interface ScopeInterface
      * Gets the key of the scope.
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function getKey(): string;
@@ -26,7 +26,7 @@ interface ScopeInterface
      * Gets the name of the scope.
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function getName(): string;
@@ -35,7 +35,7 @@ interface ScopeInterface
      * Gets the description of the scope.
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function getDescription(): string;

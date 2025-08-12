@@ -6,7 +6,7 @@ namespace Raxos\OAuth2\Server\Token;
 /**
  * Interface AccessTokenInterface
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\Token
  * @since 1.0.16
  */

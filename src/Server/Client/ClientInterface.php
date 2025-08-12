@@ -6,7 +6,7 @@ namespace Raxos\OAuth2\Server\Client;
 /**
  * Interface ClientInterface
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\Client
  * @since 1.0.16
  */
@@ -17,7 +17,7 @@ interface ClientInterface
      * Gets the client id.
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function getClientId(): string;
@@ -28,7 +28,7 @@ interface ClientInterface
      * @param string $redirectUri
      *
      * @return bool
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function isRedirectUriAllowed(string $redirectUri): bool;
@@ -39,7 +39,7 @@ interface ClientInterface
      * @param string $clientSecret
      *
      * @return bool
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function isSecretValid(string $clientSecret): bool;

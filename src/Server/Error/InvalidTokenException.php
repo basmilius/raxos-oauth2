@@ -8,7 +8,7 @@ use Raxos\Http\HttpResponseCode;
 /**
  * Class InvalidTokenException
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\Error
  * @since 1.0.16
  */
@@ -20,7 +20,7 @@ final class InvalidTokenException extends OAuth2ServerException
      *
      * @param string $message
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function __construct(string $message = 'Invalid access token.')

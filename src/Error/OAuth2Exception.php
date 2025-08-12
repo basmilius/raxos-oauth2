@@ -8,7 +8,7 @@ use Raxos\Foundation\Error\RaxosException;
 /**
  * Class OAuth2Exception
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Error
  * @since 1.0.16
  */

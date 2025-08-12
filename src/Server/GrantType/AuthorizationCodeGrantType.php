@@ -13,7 +13,7 @@ use function urldecode;
 /**
  * Class AuthorizationCodeGrantType
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\GrantType
  * @since 1.0.16
  */
@@ -24,7 +24,7 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function handle(Request $request, ClientInterface $client): Response

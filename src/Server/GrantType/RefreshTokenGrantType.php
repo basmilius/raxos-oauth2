@@ -12,7 +12,7 @@ use Raxos\Router\Response\Response;
 /**
  * Class RefreshTokenGrantType
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\GrantType
  * @since 1.0.16
  */
@@ -23,7 +23,7 @@ final class RefreshTokenGrantType extends AbstractGrantType
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function handle(Request $request, ClientInterface $client): Response

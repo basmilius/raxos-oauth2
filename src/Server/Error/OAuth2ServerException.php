@@ -10,7 +10,7 @@ use Throwable;
 /**
  * Class OAuth2ServerException
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server\Error
  * @since 1.0.17
  */

@@ -23,7 +23,7 @@ use function urlencode;
 /**
  * Class OAuth2Controller
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\OAuth2\Server
  * @since 1.0.16
  */
@@ -37,7 +37,7 @@ abstract readonly class OAuth2Controller
      *
      * @param OAuth2Server $oAuth2
      *
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     public function __construct(
@@ -51,7 +51,7 @@ abstract readonly class OAuth2Controller
      *
      * @return Response
      * @throws OAuth2ServerException
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     #[Get('/authorize')]
@@ -85,7 +85,7 @@ abstract readonly class OAuth2Controller
      *
      * @return Response
      * @throws OAuth2ServerException
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     #[Post('/authorize')]
@@ -121,7 +121,7 @@ abstract readonly class OAuth2Controller
      *
      * @return Response
      * @throws OAuth2ServerException
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     #[Post('/revoke')]
@@ -158,7 +158,7 @@ abstract readonly class OAuth2Controller
      *
      * @return Response
      * @throws OAuth2ServerException
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     #[Post('/token')]
@@ -177,7 +177,7 @@ abstract readonly class OAuth2Controller
      * Invoked when an owner is missing when it's required.
      *
      * @return Response
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     protected abstract function onAuthorizeMissingOwner(): Response;
@@ -188,7 +188,7 @@ abstract readonly class OAuth2Controller
      * @param array $context
      *
      * @return Response
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     protected abstract function renderAuthorize(array $context): Response;
@@ -200,7 +200,7 @@ abstract readonly class OAuth2Controller
      *
      * @return array
      * @throws OAuth2ServerException
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     #[ArrayShape([
@@ -242,7 +242,7 @@ abstract readonly class OAuth2Controller
      *
      * @return ClientInterface
      * @throws OAuth2ServerException
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     private function ensureClientFromHeader(Request $request): ClientInterface
@@ -283,7 +283,7 @@ abstract readonly class OAuth2Controller
      *
      * @return array
      * @throws OAuth2ServerException
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
     #[ArrayShape([
