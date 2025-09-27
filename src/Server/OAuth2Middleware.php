@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\OAuth2\Server;
 
 use Closure;
+use Raxos\Contract\Router\MiddlewareInterface;
 use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, InvalidTokenException};
-use Raxos\Router\Contract\MiddlewareInterface;
 use Raxos\Router\Mixin\Responds;
 use Raxos\Router\Request\Request;
 use Raxos\Router\Response\Response;
