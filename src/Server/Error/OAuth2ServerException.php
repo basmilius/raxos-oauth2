@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\Error;
 
+use Raxos\Error\Exception;
 use Raxos\Http\HttpResponseCode;
-use Raxos\OAuth2\Error\OAuth2Exception;
 use Throwable;
 
 /**
@@ -14,7 +14,7 @@ use Throwable;
  * @package Raxos\OAuth2\Server\Error
  * @since 1.0.17
  */
-abstract class OAuth2ServerException extends OAuth2Exception
+abstract class OAuth2ServerException extends Exception
 {
 
     /**
@@ -35,7 +35,7 @@ abstract class OAuth2ServerException extends OAuth2Exception
         ?Throwable $previous = null
     )
     {
-        parent::__construct($responeCode, $error, $errorDescription, $previous);
+        parent::__construct($error, $errorDescription, $responeCode, $previous);
     }
 
 }

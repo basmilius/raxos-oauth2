@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server;
 
-use JetBrains\PhpStorm\{ArrayShape};
-use Raxos\Foundation\Util\Base64;
-use Raxos\Http\{HttpResponseCode};
+use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, OAuth2ServerException, RedirectUriMismatchException, UnsupportedGrantTypeException};
 use Raxos\OAuth2\Server\GrantType\AbstractGrantType;
@@ -14,6 +12,7 @@ use Raxos\Router\Attribute\{Get, Post};
 use Raxos\Router\Mixin\Responds;
 use Raxos\Router\Request\Request;
 use Raxos\Router\Response\Response;
+use Raxos\Security\Base64;
 use function array_key_exists;
 use function count;
 use function explode;
@@ -198,19 +197,18 @@ abstract readonly class OAuth2Controller
      *
      * @param Request $request
      *
-     * @return array
+     * @return array{
+     *     0: ClientInterface,
+     *     1: string,
+     *     2: string,
+     *     3: string,
+     *     4: string,
+     *     5: string | null
+     * }
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    #[ArrayShape([
-        ClientInterface::class,
-        'string',
-        'string',
-        'string',
-        'string',
-        'string|null'
-    ])]
     private function ensureClientForAuthorize(Request $request): array
     {
         $clientId = $request->query->get('client_id') ?? throw new InvalidRequestException('Missing parameter: "client_id" is required.');
@@ -232,7 +230,14 @@ abstract readonly class OAuth2Controller
             $this->oAuth2->scopeFactory->convertScopeString($scope)
         );
 
-        return [$client, $clientId, $redirectUri, $responseType, $scope, $request->query->get('state')];
+        return [
+            $client,
+            $clientId,
+            $redirectUri,
+            $responseType,
+            $scope,
+            $request->query->get('state')
+        ];
     }
 
     /**
@@ -281,15 +286,14 @@ abstract readonly class OAuth2Controller
      *
      * @param Request $request
      *
-     * @return array
+     * @return array{
+     *     0: ClientInterface,
+     *     1: string
+     * }
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    #[ArrayShape([
-        ClientInterface::class,
-        'string'
-    ])]
     private function ensureClientForToken(Request $request): array
     {
         $client = $this->ensureClientFromHeader($request);

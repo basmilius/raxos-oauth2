@@ -690,11 +690,13 @@
             "dist": {
                 "type": "path",
                 "url": "../cache",
-                "reference": "d89109aa65dc8ec0aec9eb976e3bd6f6038b6913"
+                "reference": "de259a54b22f1c4e296176c36f94aa0c59258704"
             },
             "require": {
                 "ext-redis": "*",
                 "jetbrains/phpstorm-attributes": "^1.2",
+                "raxos/contract": "*",
+                "raxos/error": "*",
                 "raxos/foundation": "*"
             },
             "type": "library",
@@ -713,6 +715,34 @@
                 }
             ],
             "description": "Cache clients and utilities.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "raxos/contract",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../contract",
+                "reference": "1e228db9825ba45c7ba627c4a6e6b3502f5796d3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Raxos\\Contract\\": "src/"
+                }
+            },
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Bas Milius",
+                    "email": "bas@mili.us"
+                }
+            ],
+            "description": "Interfaces used in Raxos.",
             "transport-options": {
                 "relative": true
             }
@@ -754,6 +784,34 @@
                 }
             ],
             "description": "Datetime primitives and utilities for Raxos.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "raxos/error",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../error",
+                "reference": "a06705add140272eaafba19c3fc44d594140488c"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Raxos\\Error\\": "src/"
+                }
+            },
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Bas Milius",
+                    "email": "bas@mili.us"
+                }
+            ],
+            "description": "Error handling related features.",
             "transport-options": {
                 "relative": true
             }
@@ -804,14 +862,16 @@
             "dist": {
                 "type": "path",
                 "url": "../http",
-                "reference": "d811c7daec2fa9ff43d78f6a7ab5d02e3f9f07e8"
+                "reference": "ed964e7a7f7e90dcec52a475977c0a492d3441df"
             },
             "require": {
                 "ext-ctype": "*",
                 "ext-mbstring": "*",
                 "guzzlehttp/guzzle": "^7",
                 "jetbrains/phpstorm-attributes": "^1.2",
+                "raxos/contract": "*",
                 "raxos/datetime": "*",
+                "raxos/error": "*",
                 "raxos/foundation": "*"
             },
             "require-dev": {
