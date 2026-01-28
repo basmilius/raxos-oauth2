@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f0010b6574d9a4c469c06d09b4bbc8f",
+    "content-hash": "f3b487a2c31d797b7b39d5852b14cc58",
     "packages": [
         {
             "name": "cakephp/chronos",
-            "version": "3.2.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "6c820947bc1372a250288ab164ec1b3bb7afab39"
+                "reference": "1e417fdd4a3c6602b6c4634cf54aa9b065127fa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/6c820947bc1372a250288ab164ec1b3bb7afab39",
-                "reference": "6c820947bc1372a250288ab164ec1b3bb7afab39",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/1e417fdd4a3c6602b6c4634cf54aa9b065127fa2",
+                "reference": "1e417fdd4a3c6602b6c4634cf54aa9b065127fa2",
                 "shasum": ""
             },
             "require": {
@@ -29,7 +29,7 @@
             },
             "require-dev": {
                 "cakephp/cakephp-codesniffer": "^5.0",
-                "phpunit/phpunit": "^10.1.0 || ^11.1.3"
+                "phpunit/phpunit": "^10.5.58 || ^11.1.3"
             },
             "type": "library",
             "autoload": {
@@ -63,7 +63,7 @@
                 "issues": "https://github.com/cakephp/chronos/issues",
                 "source": "https://github.com/cakephp/chronos"
             },
-            "time": "2025-06-28T11:35:59+00:00"
+            "time": "2025-10-30T13:08:23+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -690,7 +690,7 @@
             "dist": {
                 "type": "path",
                 "url": "../cache",
-                "reference": "de259a54b22f1c4e296176c36f94aa0c59258704"
+                "reference": "d95ccf17661a8eb571be5456eb3c1e77a954ee5e"
             },
             "require": {
                 "ext-redis": "*",
@@ -725,7 +725,10 @@
             "dist": {
                 "type": "path",
                 "url": "../contract",
-                "reference": "1e228db9825ba45c7ba627c4a6e6b3502f5796d3"
+                "reference": "0b4a947ca88d455b7d3e610d4da7af2987c3278d"
+            },
+            "require": {
+                "ext-pdo": "*"
             },
             "type": "library",
             "autoload": {
@@ -753,7 +756,7 @@
             "dist": {
                 "type": "path",
                 "url": "../datetime",
-                "reference": "9a1408f6a740abb06b3b978858ef30ebb0db5f2e"
+                "reference": "cd2dcbd80e6759b4d7604062a47cd6cd112f057b"
             },
             "require": {
                 "cakephp/chronos": "^3.2",
@@ -794,7 +797,7 @@
             "dist": {
                 "type": "path",
                 "url": "../error",
-                "reference": "a06705add140272eaafba19c3fc44d594140488c"
+                "reference": "cd5e99560c3577acfd627c7b1ca29cf33c5ea254"
             },
             "type": "library",
             "autoload": {
@@ -811,7 +814,7 @@
                     "email": "bas@mili.us"
                 }
             ],
-            "description": "Error handling related features.",
+            "description": "Error handling related primitives.",
             "transport-options": {
                 "relative": true
             }
@@ -822,7 +825,7 @@
             "dist": {
                 "type": "path",
                 "url": "../foundation",
-                "reference": "e0721f683de17130c7a67d8c901e8db4f2e96c0a"
+                "reference": "b3c8747f4300dd67affdc709d503b559ad3db6e5"
             },
             "require": {
                 "ext-dom": "*",
@@ -862,7 +865,7 @@
             "dist": {
                 "type": "path",
                 "url": "../http",
-                "reference": "ed964e7a7f7e90dcec52a475977c0a492d3441df"
+                "reference": "e806edaff3e2bae3ace0905395a8018e61d85814"
             },
             "require": {
                 "ext-ctype": "*",
@@ -906,7 +909,7 @@
             "dist": {
                 "type": "path",
                 "url": "../router",
-                "reference": "4f4f766d9b603134e721a9d9fc86ff5de2a247cc"
+                "reference": "98ecbcb294a7e41e5119c5ac1aed510c77f265d6"
             },
             "require": {
                 "ext-ctype": "*",
@@ -1020,7 +1023,7 @@
     "platform": {},
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.4"
+        "php": "8.5"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
