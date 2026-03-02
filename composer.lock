@@ -720,6 +720,40 @@
             }
         },
         {
+            "name": "raxos/container",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../container",
+                "reference": "d5437eed4a881597225007fc724c0ff501b2edfa"
+            },
+            "require": {
+                "jetbrains/phpstorm-attributes": "^1.2",
+                "raxos/contract": "*",
+                "raxos/error": "*",
+                "raxos/foundation": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Raxos\\Container\\": "src/"
+                }
+            },
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Bas Milius",
+                    "email": "bas@mili.us"
+                }
+            ],
+            "description": "A Container for Raxos.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "raxos/contract",
             "version": "dev-main",
             "dist": {
@@ -756,10 +790,10 @@
             "dist": {
                 "type": "path",
                 "url": "../datetime",
-                "reference": "cd2dcbd80e6759b4d7604062a47cd6cd112f057b"
+                "reference": "20e45c79927d8a2bfd7d3458ef01d038c4a1ab15"
             },
             "require": {
-                "cakephp/chronos": "^3.2",
+                "cakephp/chronos": "^3.3",
                 "jetbrains/phpstorm-attributes": "^1.2",
                 "raxos/foundation": "*"
             },
@@ -909,7 +943,7 @@
             "dist": {
                 "type": "path",
                 "url": "../router",
-                "reference": "98ecbcb294a7e41e5119c5ac1aed510c77f265d6"
+                "reference": "f95939e3a9af6261bdac664f6677e50fefed438e"
             },
             "require": {
                 "ext-ctype": "*",
@@ -917,6 +951,7 @@
                 "ext-json": "*",
                 "ext-simplexml": "*",
                 "jetbrains/phpstorm-attributes": "^1.2",
+                "raxos/container": "*",
                 "raxos/foundation": "*",
                 "raxos/http": "*"
             },
