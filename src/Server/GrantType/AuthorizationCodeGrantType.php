@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\GrantType;
 
+use Raxos\Http\{HttpRequest, HttpResponse};
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\{InvalidGrantException, InvalidRequestException, RedirectUriMismatchException};
-use Raxos\Router\Mixin\Responds;
-use Raxos\Router\Request\Request;
-use Raxos\Router\Response\Response;
+use Raxos\Router\Responds;
 use function urldecode;
 
 /**
@@ -27,7 +26,7 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function handle(Request $request, ClientInterface $client): Response
+    public function handle(HttpRequest $request, ClientInterface $client): HttpResponse
     {
         $code = $request->post->get('code') ?? throw new InvalidRequestException('Missing parameter: "code" is required.');
         $redirectUri = $request->post->get('redirect_uri') ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');

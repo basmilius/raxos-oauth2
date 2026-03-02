@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server;
 
+use Raxos\Http\HttpRequest;
+use Raxos\Http\HttpResponse;
 use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, OAuth2ServerException, RedirectUriMismatchException, UnsupportedGrantTypeException};
 use Raxos\OAuth2\Server\GrantType\AbstractGrantType;
 use Raxos\OAuth2\Server\ResponseType\AbstractResponseType;
 use Raxos\Router\Attribute\{Get, Post};
-use Raxos\Router\Mixin\Responds;
-use Raxos\Router\Request\Request;
-use Raxos\Router\Response\Response;
+use Raxos\Router\Responds;
 use Raxos\Security\Base64;
 use function array_key_exists;
 use function count;
@@ -46,15 +46,15 @@ abstract readonly class OAuth2Controller
     /**
      * Invoked when GET /authorize is requested.
      *
-     * @param Request $request
+     * @param HttpRequest $request
      *
-     * @return Response
+     * @return HttpResponse
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    #[Get('/authorize')]
-    protected final function getAuthorize(Request $request): Response
+    #[Get('authorize')]
+    protected final function getAuthorize(HttpRequest $request): HttpResponse
     {
         if (!$this->oAuth2->hasOwner()) {
             return $this->onAuthorizeMissingOwner();
@@ -80,15 +80,15 @@ abstract readonly class OAuth2Controller
     /**
      * Invoked when POST /authorize is requested.
      *
-     * @param Request $request
+     * @param HttpRequest $request
      *
-     * @return Response
+     * @return HttpResponse
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    #[Post('/authorize')]
-    protected final function postAuthorize(Request $request): Response
+    #[Post('authorize')]
+    protected final function postAuthorize(HttpRequest $request): HttpResponse
     {
         if (!$this->oAuth2->hasOwner()) {
             return $this->onAuthorizeMissingOwner();
@@ -116,15 +116,15 @@ abstract readonly class OAuth2Controller
     /**
      * Invoked when POST /revoke is requested.
      *
-     * @param Request $request
+     * @param HttpRequest $request
      *
-     * @return Response
+     * @return HttpResponse
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    #[Post('/revoke')]
-    protected final function postRevoke(Request $request): Response
+    #[Post('revoke')]
+    protected final function postRevoke(HttpRequest $request): HttpResponse
     {
         $client = $this->ensureClientFromHeader($request);
         $token = $request->post->get('token');
@@ -153,15 +153,15 @@ abstract readonly class OAuth2Controller
     /**
      * Invoked when POST /token is requested.
      *
-     * @param Request $request
+     * @param HttpRequest $request
      *
-     * @return Response
+     * @return HttpResponse
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    #[Post('/token')]
-    protected final function postToken(Request $request): Response
+    #[Post('token')]
+    protected final function postToken(HttpRequest $request): HttpResponse
     {
         [$client, $grantType] = $this->ensureClientForToken($request);
 
@@ -175,27 +175,27 @@ abstract readonly class OAuth2Controller
     /**
      * Invoked when an owner is missing when it's required.
      *
-     * @return Response
+     * @return HttpResponse
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    protected abstract function onAuthorizeMissingOwner(): Response;
+    protected abstract function onAuthorizeMissingOwner(): HttpResponse;
 
     /**
      * Renders the "authorize" screen.
      *
      * @param array $context
      *
-     * @return Response
+     * @return HttpResponse
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    protected abstract function renderAuthorize(array $context): Response;
+    protected abstract function renderAuthorize(array $context): HttpResponse;
 
     /**
      * Ensures a client for the "authorize" request.
      *
-     * @param Request $request
+     * @param HttpRequest $request
      *
      * @return array{
      *     0: ClientInterface,
@@ -209,7 +209,7 @@ abstract readonly class OAuth2Controller
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    private function ensureClientForAuthorize(Request $request): array
+    private function ensureClientForAuthorize(HttpRequest $request): array
     {
         $clientId = $request->query->get('client_id') ?? throw new InvalidRequestException('Missing parameter: "client_id" is required.');
         $redirectUri = $request->query->get('redirect_uri') ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');
@@ -243,14 +243,14 @@ abstract readonly class OAuth2Controller
     /**
      * Ensures a client from the authorization header.
      *
-     * @param Request $request
+     * @param HttpRequest $request
      *
      * @return ClientInterface
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    private function ensureClientFromHeader(Request $request): ClientInterface
+    private function ensureClientFromHeader(HttpRequest $request): ClientInterface
     {
         $authorization = $request->headers->get('authorization') ?? throw new InvalidRequestException('Missing header: "Authorization" is required.');
 
@@ -284,7 +284,7 @@ abstract readonly class OAuth2Controller
     /**
      * Ensures a client for the token request.
      *
-     * @param Request $request
+     * @param HttpRequest $request
      *
      * @return array{
      *     0: ClientInterface,
@@ -294,7 +294,7 @@ abstract readonly class OAuth2Controller
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    private function ensureClientForToken(Request $request): array
+    private function ensureClientForToken(HttpRequest $request): array
     {
         $client = $this->ensureClientFromHeader($request);
         $grantType = $request->post->get('grant_type') ?? throw new InvalidRequestException('Missing parameter: "grant_type" is required.');

@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\ResponseType;
 
+use Raxos\Http\{HttpRequest, HttpResponse};
+use Raxos\Http\Response\NotFoundHttpResponse;
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
-use Raxos\Router\Request\Request;
-use Raxos\Router\Response\{NotFoundResponse, Response};
 
 /**
  * Class AbstractResponseType
@@ -33,9 +33,9 @@ abstract class AbstractResponseType implements ResponseTypeInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function handle(Request $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Response
+    public function handle(HttpRequest $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): HttpResponse
     {
-        return new NotFoundResponse();
+        return new NotFoundHttpResponse();
     }
 
 }

@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\ResponseType;
 
-use Raxos\Http\HttpResponseCode;
+use Raxos\Http\{HttpRequest, HttpResponse, HttpResponseCode};
 use Raxos\OAuth2\Server\Client\ClientInterface;
-use Raxos\Router\Mixin\Responds;
-use Raxos\Router\Request\Request;
-use Raxos\Router\Response\Response;
+use Raxos\Router\Responds;
 use function urlencode;
 
 /**
@@ -27,7 +25,7 @@ final class TokenResponseType extends AbstractResponseType
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function handle(Request $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): Response
+    public function handle(HttpRequest $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): HttpResponse
     {
         $accessToken = $this->tokenFactory->generateAccessToken();
 

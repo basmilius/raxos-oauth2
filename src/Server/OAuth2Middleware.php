@@ -5,10 +5,9 @@ namespace Raxos\OAuth2\Server;
 
 use Closure;
 use Raxos\Contract\Router\MiddlewareInterface;
+use Raxos\Http\{HttpRequest, HttpResponse};
 use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, InvalidTokenException};
-use Raxos\Router\Mixin\Responds;
-use Raxos\Router\Request\Request;
-use Raxos\Router\Response\Response;
+use Raxos\Router\Responds;
 use function str_starts_with;
 use function substr;
 
@@ -41,7 +40,7 @@ abstract readonly class OAuth2Middleware implements MiddlewareInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(HttpRequest $request, Closure $next): HttpResponse
     {
         $authorization = $request->headers->get('authorization');
 

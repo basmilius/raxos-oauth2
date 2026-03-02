@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\GrantType;
 
+use Raxos\Http\{HttpRequest, HttpResponse};
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\{InvalidGrantException, InvalidRequestException};
-use Raxos\Router\Mixin\Responds;
-use Raxos\Router\Request\Request;
-use Raxos\Router\Response\Response;
+use Raxos\Router\Responds;
 
 /**
  * Class RefreshTokenGrantType
@@ -26,7 +25,7 @@ final class RefreshTokenGrantType extends AbstractGrantType
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function handle(Request $request, ClientInterface $client): Response
+    public function handle(HttpRequest $request, ClientInterface $client): HttpResponse
     {
         $refreshToken = $request->post->get('refresh_token') ?? throw new InvalidRequestException('Missing parameter: "refresh_token" is required.');
         $refreshToken = $this->tokenFactory->getRefreshToken($client, $refreshToken);
