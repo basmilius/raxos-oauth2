@@ -34,7 +34,7 @@ final class TokenResponseType extends AbstractResponseType
         $state = $state !== null ? '&state=' . urlencode($state) : '';
 
         return $this->redirect(
-            destination: "{$redirectUri}#code={$accessToken}&token_type=Bearer&expires_in=3600{$state}",
+            destination: "{$redirectUri}#access_token={$accessToken}&token_type=Bearer&expires_in=3600{$state}",
             responseCode: HttpResponseCode::SEE_OTHER
         );
     }
