@@ -20,7 +20,7 @@ abstract class OAuth2ServerException extends Exception
     /**
      * OAuth2ServerException constructor.
      *
-     * @param HttpResponseCode $responeCode
+     * @param HttpResponseCode $responseCode
      * @param string $error
      * @param string $errorDescription
      * @param Throwable|null $previous
@@ -29,13 +29,13 @@ abstract class OAuth2ServerException extends Exception
      * @since 1.0.17
      */
     public function __construct(
-        public readonly HttpResponseCode $responeCode,
+        public readonly HttpResponseCode $responseCode,
         string $error,
         string $errorDescription,
         ?Throwable $previous = null
     )
     {
-        parent::__construct($error, $errorDescription, $responeCode, $previous);
+        parent::__construct($error, $errorDescription, $responseCode, $previous);
     }
 
 }
