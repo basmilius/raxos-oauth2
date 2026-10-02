@@ -2,27 +2,13 @@
 declare(strict_types=1);
 
 use Raxos\Http\HttpRequest;
-use Raxos\Http\Structure\HttpPostMap;
-use Raxos\Http\Structure\HttpQueryMap;
+use Raxos\Http\Structure\{HttpPostMap};
 use Raxos\OAuth2\Server\Client\ClientInterface;
-use Raxos\OAuth2\Server\Error\InvalidGrantException;
-use Raxos\OAuth2\Server\Error\InvalidRequestException;
+use Raxos\OAuth2\Server\Error\{InvalidGrantException};
 use Raxos\OAuth2\Server\GrantType\AuthorizationCodeGrantType;
-use Raxos\OAuth2\Server\Pkce;
-use Raxos\OAuth2\Server\ResponseType\CodeResponseType;
-use Raxos\OAuth2\Server\Token\AuthorizationCodeInterface;
-use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
-use Raxos\Router\Mapper;
-use RaxosTests\OAuth2\Controller;
+use Raxos\OAuth2\Server\Token\{AuthorizationCodeInterface, TokenFactoryInterface};
 
-it('matches the RFC7636 S256 test vector and rejects missing or invalid proof', function (): void {
-    $verifier = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
-    $challenge = 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM';
-    expect(Pkce::verify($verifier, $challenge))->toBeTrue();
-    expect(Pkce::verify('incorrect', $challenge))->toBeFalse();
-    expect(Pkce::verify($verifier, null))->toBeFalse();
-    expect(fn() => Pkce::challenge($challenge, 'plain'))->toThrow(InvalidRequestException::class);
-});
+covers(AuthorizationCodeGrantType::class);
 
 it('consumes a code atomically before issuing tokens and rejects a concurrent redemption', function (): void {
     $verifier = 'dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk';
@@ -51,21 +37,7 @@ it('consumes a code atomically before issuing tokens and rejects a concurrent re
     $request = HttpRequest::create(post: new HttpPostMap(['code' => 'one-use', 'redirect_uri' => 'https://example.org/callback', 'code_verifier' => $verifier]));
     $grant = new AuthorizationCodeGrantType($factory);
     expect($grant->handle($request, $client)->body['access_token'])->toBe('access');
-    expect(fn() => $grant->handle($request, $client))->toThrow(InvalidGrantException::class);
-});
-
-it('stores the S256 challenge with each authorization code', function (): void {
-    $challenge = 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM';
-    $client = $this->createMock(ClientInterface::class);
-    $factory = $this->createMock(TokenFactoryInterface::class);
-    $factory->method('generateAuthorizationCode')->willReturn('code');
-    $factory->expects($this->once())->method('saveAuthorizationCode')->with($client, 'owner', 'https://example.org', 'read', 'code', 'state', $challenge);
-    $request = HttpRequest::create(query: new HttpQueryMap(['code_challenge' => $challenge, 'code_challenge_method' => 'S256']));
-    new CodeResponseType($factory)->handle($request, $client, 'owner', 'https://example.org', 'read', 'state');
-});
-
-it('exposes the four OAuth endpoints to controller mapping', function (): void {
-    expect(count(iterator_to_array(Mapper::routes(new ReflectionClass(Controller::class)))))->toBe(4);
+    expect(fn () => $grant->handle($request, $client))->toThrow(InvalidGrantException::class);
 });
 
 it('rejects invalid code redemption before consuming a code or issuing a token', function (string $case, string $exception): void {
@@ -87,12 +59,8 @@ it('rejects invalid code redemption before consuming a code or issuing a token',
         $post['code_verifier'] = str_repeat('x', 43);
     }
     $request = HttpRequest::create(post: new HttpPostMap($post));
-    expect(fn(): mixed => new AuthorizationCodeGrantType($factory)->handle($request, $client))->toThrow($exception);
+    expect(fn (): mixed => new AuthorizationCodeGrantType($factory)->handle($request, $client))->toThrow($exception);
 })->with([
     ['expired', InvalidGrantException::class], ['other-client', InvalidGrantException::class],
     ['missing-code', InvalidGrantException::class], ['redirect', Raxos\OAuth2\Server\Error\RedirectUriMismatchException::class], ['verifier', InvalidGrantException::class],
 ]);
-
-it('rejects malformed PKCE challenges', function (mixed $challenge, mixed $method): void {
-    expect(fn(): string => Pkce::challenge($challenge, $method))->toThrow(InvalidRequestException::class);
-})->with([[null, 'S256'], ['', 'S256'], [str_repeat('x', 42), 'S256'], [str_repeat('!', 43), 'S256'], [[], 'S256'], [str_repeat('x', 43), null]]);

@@ -25,7 +25,7 @@ final class CodeResponseType extends AbstractResponseType
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.16
+     * @since 3.2.0
      */
     public function handle(HttpRequest $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): HttpResponse
     {
@@ -34,6 +34,7 @@ final class CodeResponseType extends AbstractResponseType
 
         $this->tokenFactory->saveAuthorizationCode($client, $owner, $redirectUri, $scope, $authorizationCode, $state, $challenge);
 
+        $authorizationCode = urlencode($authorizationCode);
         $join = str_contains($redirectUri, '?') ? '&' : '?';
         $state = $state !== null ? '&state=' . urlencode($state) : '';
 

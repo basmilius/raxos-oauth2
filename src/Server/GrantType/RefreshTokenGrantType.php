@@ -23,14 +23,14 @@ final class RefreshTokenGrantType extends AbstractGrantType
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.16
+     * @since 3.2.0
      */
     public function handle(HttpRequest $request, ClientInterface $client): HttpResponse
     {
         $refreshToken = $request->post->get('refresh_token') ?? throw new InvalidRequestException('Missing parameter: "refresh_token" is required.');
         $refreshToken = $this->tokenFactory->getRefreshToken($client, $refreshToken);
 
-        if ($refreshToken === null || $refreshToken->isExpired()) {
+        if ($refreshToken === null || $refreshToken->isExpired() || $refreshToken->getClientId() !== $client->getClientId()) {
             throw new InvalidGrantException('The refresh token has expired.');
         }
 

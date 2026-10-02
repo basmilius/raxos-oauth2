@@ -23,7 +23,7 @@ final class TokenResponseType extends AbstractResponseType
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.16
+     * @since 3.2.0
      */
     public function handle(HttpRequest $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): HttpResponse
     {
@@ -31,6 +31,7 @@ final class TokenResponseType extends AbstractResponseType
 
         $this->tokenFactory->saveAccessToken($client, $owner, $scope, $accessToken, 3600, null);
 
+        $accessToken = urlencode($accessToken);
         $state = $state !== null ? '&state=' . urlencode($state) : '';
 
         return $this->redirect(

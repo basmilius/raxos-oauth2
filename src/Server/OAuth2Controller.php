@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server;
 
-use Raxos\Http\HttpRequest;
-use Raxos\Http\HttpResponse;
-use Raxos\Http\HttpResponseCode;
+use InvalidArgumentException;
+use Raxos\Http\{HttpRequest, HttpResponse, HttpResponseCode};
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, OAuth2ServerException, RedirectUriMismatchException, UnsupportedGrantTypeException};
 use Raxos\OAuth2\Server\GrantType\AbstractGrantType;
@@ -254,19 +253,22 @@ abstract readonly class OAuth2Controller
      * @return ClientInterface
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.16
+     * @since 3.2.0
      */
     private function ensureClientFromHeader(HttpRequest $request): ClientInterface
     {
         $authorization = $request->headers->get('authorization') ?? throw new InvalidRequestException('Missing header: "Authorization" is required.');
 
-        [$authorizationType, $authorizationValue] = explode(' ', $authorization, 2);
-
-        if ($authorizationType !== 'Basic') {
+        if (preg_match('/^Basic +([^\s]+)$/iD', $authorization, $matches) !== 1) {
             throw new InvalidClientException();
         }
 
-        $authorizationValue = Base64::decode($authorizationValue);
+        try {
+            $authorizationValue = Base64::decode($matches[1]);
+        } catch (InvalidArgumentException) {
+            throw new InvalidClientException();
+        }
+
         $authorizationValue = explode(':', $authorizationValue, 2);
 
         if (count($authorizationValue) !== 2) {

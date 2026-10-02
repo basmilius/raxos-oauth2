@@ -8,8 +8,6 @@ use Raxos\Contract\Router\MiddlewareInterface;
 use Raxos\Http\{HttpRequest, HttpResponse};
 use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, InvalidTokenException};
 use Raxos\Router\Responds;
-use function str_starts_with;
-use function substr;
 
 /**
  * Class OAuth2Middleware
@@ -38,17 +36,16 @@ abstract readonly class OAuth2Middleware implements MiddlewareInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.16
+     * @since 3.2.0
      */
     public function handle(HttpRequest $request, Closure $next): HttpResponse
     {
-        $authorization = $request->headers->get('authorization');
+        $authorization = $request->bearerToken();
 
-        if ($authorization === null || !str_starts_with($authorization, 'Bearer ')) {
+        if ($authorization === null) {
             return $this->error(new InvalidRequestException('Missing required bearer token in "Authorization" header.'));
         }
 
-        $authorization = substr($authorization, 7);
         $clientFactory = $this->oAuth2->clientFactory;
         $tokenFactory = $this->oAuth2->tokenFactory;
         $token = $tokenFactory->getAccessToken($authorization);
