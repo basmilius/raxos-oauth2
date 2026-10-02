@@ -149,11 +149,12 @@ interface TokenFactoryInterface
      * @param string $scope
      * @param string $authorizationCode
      * @param string|null $state
+     * @param string|null $codeChallenge
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.16
+     * @since 3.2.0
      */
-    public function saveAuthorizationCode(ClientInterface $client, mixed $owner, string $redirectUri, string $scope, string $authorizationCode, ?string $state = null): void;
+    public function saveAuthorizationCode(ClientInterface $client, mixed $owner, string $redirectUri, string $scope, string $authorizationCode, ?string $state = null, ?string $codeChallenge = null): void;
 
     /**
      * Saves a new refresh token for the given client and owner with
@@ -168,5 +169,17 @@ interface TokenFactoryInterface
      * @since 1.0.16
      */
     public function saveRefreshToken(ClientInterface $client, mixed $owner, string $scope, string $refreshToken): void;
+
+    /**
+     * Atomically consumes an unexpired code belonging to this client, returning false
+     * when another request already consumed it. A read followed by a delete is insufficient.
+     *
+     * @param ClientInterface $client
+     * @param AuthorizationCodeInterface $authorizationCode
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.2.0
+     */
+    public function consumeAuthorizationCode(ClientInterface $client, AuthorizationCodeInterface $authorizationCode): bool;
 
 }

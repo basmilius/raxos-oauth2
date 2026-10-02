@@ -1,0 +1,55 @@
+name: Tests
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      RAXOS_REDIS_HOST: 127.0.0.1
+      RAXOS_REDIS_PORT: 6379
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: basmilius/raxos
+          submodules: recursive
+          persist-credentials: false
+      - name: Check out current dependency branches
+        run: git submodule foreach 'git fetch --depth=1 https://github.com/basmilius/raxos-$name.git main && git checkout --detach FETCH_HEAD'
+      - uses: actions/checkout@v7
+        with:
+          path: oauth2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: bcmath, ctype, dom, fileinfo, gd, intl, json, mbstring, openssl, pdo, pdo_mysql, pdo_sqlite, redis, simplexml, zip
+          coverage: none
+          tools: composer:v2
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer/files
+          key: composer-${{ runner.os }}-${{ hashFiles('oauth2/composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+      - name: Install dependencies
+        working-directory: oauth2
+        run: composer install --no-interaction --prefer-dist
+      - name: Validate package
+        working-directory: oauth2
+        run: composer validate --strict --no-check-all
+      - name: Run Pest
+        working-directory: oauth2
+        run: composer test

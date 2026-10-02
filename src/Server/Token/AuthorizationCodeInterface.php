@@ -22,4 +22,11 @@ interface AuthorizationCodeInterface extends TokenInterface
      */
     public function getRedirectUri(): string;
 
+    /**
+     * @return string|null S256 challenge; null marks a legacy code that cannot be redeemed.
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.2.0
+     */
+    public function getCodeChallenge(): ?string;
+
 }

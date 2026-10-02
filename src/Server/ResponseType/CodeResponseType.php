@@ -5,6 +5,7 @@ namespace Raxos\OAuth2\Server\ResponseType;
 
 use Raxos\Http\{HttpRequest, HttpResponse, HttpResponseCode};
 use Raxos\OAuth2\Server\Client\ClientInterface;
+use Raxos\OAuth2\Server\Pkce;
 use Raxos\Router\Responds;
 use function str_contains;
 use function urlencode;
@@ -28,9 +29,10 @@ final class CodeResponseType extends AbstractResponseType
      */
     public function handle(HttpRequest $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): HttpResponse
     {
+        $challenge = Pkce::challenge($request->query->get('code_challenge'), $request->query->get('code_challenge_method'));
         $authorizationCode = $this->tokenFactory->generateAuthorizationCode();
 
-        $this->tokenFactory->saveAuthorizationCode($client, $owner, $redirectUri, $scope, $authorizationCode, $state);
+        $this->tokenFactory->saveAuthorizationCode($client, $owner, $redirectUri, $scope, $authorizationCode, $state, $challenge);
 
         $join = str_contains($redirectUri, '?') ? '&' : '?';
         $state = $state !== null ? '&state=' . urlencode($state) : '';

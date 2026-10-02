@@ -54,7 +54,7 @@ abstract readonly class OAuth2Controller
      * @since 1.0.16
      */
     #[Get('authorize')]
-    protected final function getAuthorize(HttpRequest $request): HttpResponse
+    public final function getAuthorize(HttpRequest $request): HttpResponse
     {
         if (!$this->oAuth2->hasOwner()) {
             return $this->onAuthorizeMissingOwner();
@@ -73,7 +73,9 @@ abstract readonly class OAuth2Controller
                 ->convertScopes($this->oAuth2
                     ->scopeFactory
                     ->convertScopeString($scope)),
-            'state' => $state
+            'state' => $state,
+            'code_challenge' => $request->query->get('code_challenge'),
+            'code_challenge_method' => $request->query->get('code_challenge_method')
         ]);
     }
 
@@ -88,7 +90,7 @@ abstract readonly class OAuth2Controller
      * @since 1.0.16
      */
     #[Post('authorize')]
-    protected final function postAuthorize(HttpRequest $request): HttpResponse
+    public final function postAuthorize(HttpRequest $request): HttpResponse
     {
         if (!$this->oAuth2->hasOwner()) {
             return $this->onAuthorizeMissingOwner();
@@ -124,7 +126,7 @@ abstract readonly class OAuth2Controller
      * @since 1.0.16
      */
     #[Post('revoke')]
-    protected final function postRevoke(HttpRequest $request): HttpResponse
+    public final function postRevoke(HttpRequest $request): HttpResponse
     {
         $client = $this->ensureClientFromHeader($request);
         $token = $request->post->get('token');
@@ -161,7 +163,7 @@ abstract readonly class OAuth2Controller
      * @since 1.0.16
      */
     #[Post('token')]
-    protected final function postToken(HttpRequest $request): HttpResponse
+    public final function postToken(HttpRequest $request): HttpResponse
     {
         [$client, $grantType] = $this->ensureClientForToken($request);
 
@@ -224,6 +226,10 @@ abstract readonly class OAuth2Controller
 
         if (!array_key_exists($responseType, OAuth2Server::RESPONSE_TYPES)) {
             throw new UnsupportedGrantTypeException();
+        }
+
+        if ($responseType === 'code') {
+            Pkce::challenge($request->query->get('code_challenge'), $request->query->get('code_challenge_method'));
         }
 
         $this->oAuth2->scopeFactory->ensureValidScopes(

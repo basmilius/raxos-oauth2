@@ -6,8 +6,8 @@ namespace Raxos\OAuth2\Server\GrantType;
 use Raxos\Http\{HttpRequest, HttpResponse};
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Error\{InvalidGrantException, InvalidRequestException, RedirectUriMismatchException};
+use Raxos\OAuth2\Server\Pkce;
 use Raxos\Router\Responds;
-use function urldecode;
 
 /**
  * Class AuthorizationCodeGrantType
@@ -32,9 +32,8 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
         $redirectUri = $request->post->get('redirect_uri') ?? throw new InvalidRequestException('Missing parameter: "redirect_uri" is required.');
 
         $authorizationCode = $this->tokenFactory->getAuthorizationCode($client, $code) ?? throw new InvalidGrantException("Authorization code doesn't exist or is invalid for the client.");
-        $redirectUri = urldecode($redirectUri);
 
-        if ($authorizationCode->isExpired()) {
+        if ($authorizationCode->isExpired() || $authorizationCode->getClientId() !== $client->getClientId()) {
             throw new InvalidGrantException('The authorization code has expired.');
         }
 
@@ -42,12 +41,19 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
             throw new RedirectUriMismatchException();
         }
 
+        if (!Pkce::verify($request->post->get('code_verifier'), $authorizationCode->getCodeChallenge())) {
+            throw new InvalidGrantException('PKCE verification failed.');
+        }
+
+        if (!$this->tokenFactory->consumeAuthorizationCode($client, $authorizationCode)) {
+            throw new InvalidGrantException('The authorization code has already been consumed or expired.');
+        }
+
         $accessToken = $this->tokenFactory->generateAccessToken();
         $refreshToken = $this->tokenFactory->generateRefreshToken();
 
         $this->tokenFactory->saveRefreshToken($client, $authorizationCode->getOwner(), $authorizationCode->getScope(), $refreshToken);
         $this->tokenFactory->saveAccessToken($client, $authorizationCode->getOwner(), $authorizationCode->getScope(), $accessToken, 3600, $refreshToken);
-        $this->tokenFactory->revokeAuthorizationCode($client, $authorizationCode);
 
         return $this->json([
             'access_token' => $accessToken,

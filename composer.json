@@ -1,7 +1,7 @@
 {
     "name": "raxos/oauth2",
     "description": "OAuth2 for raxos/router.",
-    "license": "mit",
+    "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "type": "library",
@@ -19,6 +19,9 @@
     "config": {
         "platform": {
             "php": "8.5"
+        },
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     },
     "repositories": [
@@ -30,9 +33,24 @@
     ],
     "require": {
         "jetbrains/phpstorm-attributes": "^1.2",
+        "php": ">=8.5",
         "raxos/cache": "*",
+        "raxos/contract": "*",
+        "raxos/error": "*",
         "raxos/foundation": "*",
         "raxos/http": "*",
-        "raxos/router": "*"
+        "raxos/router": "*",
+        "raxos/security": "*"
+    },
+    "require-dev": {
+        "pestphp/pest": "^5.0"
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/Fixtures/"
+        ]
+    },
+    "scripts": {
+        "test": "pest --compact"
     }
 }

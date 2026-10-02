@@ -5,3 +5,7 @@ Thumbs.db
 
 # Composer
 vendor/
+
+/.phpunit.cache/
+
+/.pest/
