@@ -4,17 +4,25 @@ declare(strict_types=1);
 namespace Raxos\OAuth2\Server;
 
 use InvalidArgumentException;
-use Raxos\Http\{HttpRequest, HttpResponse, HttpResponseCode};
+use Raxos\Http\HttpRequest;
+use Raxos\Http\HttpResponse;
+use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Server\Client\ClientInterface;
-use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, OAuth2ServerException, RedirectUriMismatchException, UnsupportedGrantTypeException};
+use Raxos\OAuth2\Server\Error\InvalidClientException;
+use Raxos\OAuth2\Server\Error\InvalidRequestException;
+use Raxos\OAuth2\Server\Error\OAuth2ServerException;
+use Raxos\OAuth2\Server\Error\RedirectUriMismatchException;
+use Raxos\OAuth2\Server\Error\UnsupportedGrantTypeException;
 use Raxos\OAuth2\Server\GrantType\AbstractGrantType;
 use Raxos\OAuth2\Server\ResponseType\AbstractResponseType;
-use Raxos\Router\Attribute\{Get, Post};
+use Raxos\Router\Attribute\Get;
+use Raxos\Router\Attribute\Post;
 use Raxos\Router\Responds;
 use Raxos\Security\Base64;
 use function array_key_exists;
 use function count;
 use function explode;
+use function in_array;
 use function str_contains;
 use function urlencode;
 
@@ -40,7 +48,9 @@ abstract readonly class OAuth2Controller
      */
     public function __construct(
         public OAuth2Server $oAuth2
-    ) {}
+    )
+    {
+    }
 
     /**
      * Invoked when GET /authorize is requested.
@@ -109,7 +119,7 @@ abstract readonly class OAuth2Controller
 
         $responseType = OAuth2Server::RESPONSE_TYPES[$responseType] ?? throw new UnsupportedGrantTypeException();
         /** @var AbstractResponseType $responseType */
-        $responseType = new $responseType($this->oAuth2->tokenFactory);
+        $responseType = new $responseType($this->oAuth2->tokenFactory, $this->oAuth2->profile);
 
         return $responseType->handle($request, $client, $this->oAuth2->getOwner(), $redirectUri, $scope, $state);
     }
@@ -168,7 +178,7 @@ abstract readonly class OAuth2Controller
 
         /** @var class-string<AbstractGrantType> $grantType */
         $grantType = OAuth2Server::GRANT_TYPES[$grantType] ?? throw new UnsupportedGrantTypeException();
-        $grantType = new $grantType($this->oAuth2->tokenFactory);
+        $grantType = new $grantType($this->oAuth2->tokenFactory, $this->oAuth2->profile);
 
         return $grantType->handle($request, $client);
     }
@@ -223,7 +233,7 @@ abstract readonly class OAuth2Controller
             throw new RedirectUriMismatchException();
         }
 
-        if (!array_key_exists($responseType, OAuth2Server::RESPONSE_TYPES)) {
+        if (!array_key_exists($responseType, OAuth2Server::RESPONSE_TYPES) || !in_array($responseType, $this->oAuth2->profile->responseTypes, true)) {
             throw new UnsupportedGrantTypeException();
         }
 
@@ -253,7 +263,7 @@ abstract readonly class OAuth2Controller
      * @return ClientInterface
      * @throws OAuth2ServerException
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.16
      */
     private function ensureClientFromHeader(HttpRequest $request): ClientInterface
     {
@@ -307,11 +317,10 @@ abstract readonly class OAuth2Controller
         $client = $this->ensureClientFromHeader($request);
         $grantType = $request->post->get('grant_type') ?? throw new InvalidRequestException('Missing parameter: "grant_type" is required.');
 
-        if (!array_key_exists($grantType, OAuth2Server::GRANT_TYPES)) {
+        if (!array_key_exists($grantType, OAuth2Server::GRANT_TYPES) || !in_array($grantType, $this->oAuth2->profile->grantTypes, true)) {
             throw new UnsupportedGrantTypeException();
         }
 
         return [$client, $grantType];
     }
-
 }

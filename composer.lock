@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fba870a69b059be3cd962eea2671b7a",
+    "content-hash": "f6fead44330dc12b845523e37d29dedc",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -695,20 +695,25 @@
             "dist": {
                 "type": "path",
                 "url": "../cache",
-                "reference": "29d074f467e78ccd715b45ae8816f82b74bd0007"
+                "reference": "861d528709b124f745323c1c2acb01cc59cc663e"
             },
             "require": {
                 "ext-redis": "*",
                 "jetbrains/phpstorm-attributes": "^1.2",
                 "php": ">=8.5",
-                "raxos/contract": "*",
-                "raxos/error": "*",
-                "raxos/foundation": "*"
+                "raxos/contract": "^3.2",
+                "raxos/error": "^3.2",
+                "raxos/foundation": "^3.2"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Raxos\\Cache\\": "src/"
@@ -744,19 +749,24 @@
             "dist": {
                 "type": "path",
                 "url": "../collection",
-                "reference": "0cbe75a2a4ac749993da9e35f83144c1d5702508"
+                "reference": "55c7ab716cb1eadbbcf64e75818f36a963a17453"
             },
             "require": {
                 "jetbrains/phpstorm-attributes": "^1.2",
                 "php": ">=8.5",
-                "raxos/contract": "*",
-                "raxos/error": "*",
-                "raxos/foundation": "*"
+                "raxos/contract": "^3.2",
+                "raxos/error": "^3.2",
+                "raxos/foundation": "^3.2"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Raxos\\Collection\\": "src/"
@@ -792,15 +802,15 @@
             "dist": {
                 "type": "path",
                 "url": "../container",
-                "reference": "d3a158767e8add920b047315333eb4d50ea5a2a2"
+                "reference": "2f5197d380457412b46f65149242e3dd9060c578"
             },
             "require": {
                 "jetbrains/phpstorm-attributes": "^1.2",
                 "php": ">=8.5",
-                "raxos/contract": "*",
-                "raxos/error": "*",
-                "raxos/foundation": "*",
-                "raxos/reflection": "*"
+                "raxos/contract": "^3.3",
+                "raxos/error": "^3.2",
+                "raxos/foundation": "^3.2",
+                "raxos/reflection": "^3.2"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0",
@@ -810,6 +820,11 @@
                 "psr/container": "Required for PsrContainerAdapter to expose the container as a PSR-11 ContainerInterface."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Raxos\\Container\\": "src/"
@@ -845,7 +860,7 @@
             "dist": {
                 "type": "path",
                 "url": "../contract",
-                "reference": "d5c2929acdfb0b302d5296950777845fe4b8a456"
+                "reference": "c267c1157026a95862ba163b7f71fe8fc1028f25"
             },
             "require": {
                 "ext-pdo": "*",
@@ -855,6 +870,11 @@
                 "pestphp/pest": "^5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Raxos\\Contract\\": "src/"
@@ -890,24 +910,29 @@
             "dist": {
                 "type": "path",
                 "url": "../datetime",
-                "reference": "33e27f42fd0c056ef03558d8a3d26baaf713bf45"
+                "reference": "892475499190298f92853519162c8570444d54f3"
             },
             "require": {
                 "cakephp/chronos": "^3.3",
                 "jetbrains/phpstorm-attributes": "^1.2",
                 "php": ">=8.5",
-                "raxos/foundation": "*"
+                "raxos/foundation": "^3.2"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0",
-                "raxos/database": "*",
-                "raxos/http": "*"
+                "raxos/database": "^3.2",
+                "raxos/http": "^3.2"
             },
             "suggest": {
                 "raxos/database": "to use the built-in casters.",
                 "raxos/http": "to use the built-in constraints."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Raxos\\DateTime\\": "src/"
@@ -943,16 +968,21 @@
             "dist": {
                 "type": "path",
                 "url": "../error",
-                "reference": "771708deb338a66cbae34a3b28c4ba1d9e513e11"
+                "reference": "2edd582feb71f31badc2dead4b8ebe518e4eae01"
             },
             "require": {
                 "php": ">=8.5",
-                "raxos/contract": "*"
+                "raxos/contract": "^3.2"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Raxos\\Error\\": "src/"
@@ -988,7 +1018,7 @@
             "dist": {
                 "type": "path",
                 "url": "../foundation",
-                "reference": "b1b3071cd7fe6ab32e16a9b18baef4803442f4bf"
+                "reference": "48a14bfcba5c73e0bae6c6e16351d3f856cfa71a"
             },
             "require": {
                 "ext-dom": "*",
@@ -999,13 +1029,19 @@
                 "ext-simplexml": "*",
                 "jetbrains/phpstorm-attributes": "^1.2",
                 "php": ">=8.5",
-                "raxos/contract": "*",
-                "raxos/error": "*"
+                "psr/clock": "^1.0",
+                "raxos/contract": "^3.2",
+                "raxos/error": "^3.2"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "files": [
                     "src/functions.php"
@@ -1044,7 +1080,7 @@
             "dist": {
                 "type": "path",
                 "url": "../http",
-                "reference": "e010431a70e4442dfaa227566d40c45186f0b2b0"
+                "reference": "fb0ccfff572c68405e8c5c5cc75cbf87193deb71"
             },
             "require": {
                 "ext-ctype": "*",
@@ -1056,20 +1092,25 @@
                 "psr/http-client": "^1",
                 "psr/http-factory": "^1",
                 "psr/http-message": "^1 || ^2",
-                "raxos/collection": "*",
-                "raxos/contract": "*",
-                "raxos/datetime": "*",
-                "raxos/error": "*",
-                "raxos/foundation": "*"
+                "raxos/collection": "^3.2",
+                "raxos/contract": "^3.2",
+                "raxos/datetime": "^3.2",
+                "raxos/error": "^3.2",
+                "raxos/foundation": "^3.2"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0",
-                "raxos/database": "*"
+                "raxos/database": "^3.2"
             },
             "suggest": {
                 "raxos/database": "to use the Model constraint attribute."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Raxos\\Http\\": "src/"
@@ -1105,16 +1146,21 @@
             "dist": {
                 "type": "path",
                 "url": "../reflection",
-                "reference": "c309a5a6bf17026642e1211e230370c47aa26d04"
+                "reference": "eaad85f80e59b70f4967ea04d277209ce0481a5d"
             },
             "require": {
                 "php": ">=8.5",
-                "raxos/contract": "*"
+                "raxos/contract": "^3.2"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "files": [
                     "src/functions.php"
@@ -1153,7 +1199,7 @@
             "dist": {
                 "type": "path",
                 "url": "../router",
-                "reference": "36589a729654b12e7e9311cdbb6a6b4dbb52cf8d"
+                "reference": "9ee68b1330f60894959dbb61745f906b0e4d646b"
             },
             "require": {
                 "ext-ctype": "*",
@@ -1162,21 +1208,26 @@
                 "ext-simplexml": "*",
                 "jetbrains/phpstorm-attributes": "^1.2",
                 "php": ">=8.5",
-                "raxos/collection": "*",
-                "raxos/container": "*",
-                "raxos/contract": "*",
-                "raxos/error": "*",
-                "raxos/foundation": "*",
-                "raxos/http": "*"
+                "raxos/collection": "^3.2",
+                "raxos/container": "^3.2",
+                "raxos/contract": "^3.2",
+                "raxos/error": "^3.2",
+                "raxos/foundation": "^3.2",
+                "raxos/http": "^3.2"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0",
-                "raxos/database": "*"
+                "raxos/database": "^3.2"
             },
             "suggest": {
                 "raxos/database": "to use the MapModel router parameter attribute."
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Raxos\\Router\\": "src/"
@@ -1212,19 +1263,25 @@
             "dist": {
                 "type": "path",
                 "url": "../security",
-                "reference": "afddcf6fa233e52cbb2181236c455f008afffd48"
+                "reference": "b4bdecd4c3944e6ea573ba50d8baf4822593dd31"
             },
             "require": {
                 "ext-openssl": "*",
                 "php": ">=8.5",
-                "raxos/contract": "*",
-                "raxos/error": "*",
-                "raxos/foundation": "*"
+                "psr/clock": "^1.0",
+                "raxos/contract": "^3.2",
+                "raxos/error": "^3.2",
+                "raxos/foundation": "^3.3"
             },
             "require-dev": {
                 "pestphp/pest": "^5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.3.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Raxos\\Security\\": "src/"

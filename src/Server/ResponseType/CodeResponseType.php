@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Raxos\OAuth2\Server\ResponseType;
 
-use Raxos\Http\{HttpRequest, HttpResponse, HttpResponseCode};
+use Raxos\Http\HttpRequest;
+use Raxos\Http\HttpResponse;
+use Raxos\Http\HttpResponseCode;
 use Raxos\OAuth2\Server\Client\ClientInterface;
 use Raxos\OAuth2\Server\Pkce;
 use Raxos\Router\Responds;
@@ -25,9 +27,16 @@ final class CodeResponseType extends AbstractResponseType
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.16
      */
-    public function handle(HttpRequest $request, ClientInterface $client, mixed $owner, string $redirectUri, string $scope, ?string $state = null): HttpResponse
+    public function handle(
+        HttpRequest $request,
+        ClientInterface $client,
+        mixed $owner,
+        string $redirectUri,
+        string $scope,
+        ?string $state = null
+    ): HttpResponse
     {
         $challenge = Pkce::challenge($request->query->get('code_challenge'), $request->query->get('code_challenge_method'));
         $authorizationCode = $this->tokenFactory->generateAuthorizationCode();
@@ -43,5 +52,4 @@ final class CodeResponseType extends AbstractResponseType
             responseCode: HttpResponseCode::SEE_OTHER
         );
     }
-
 }

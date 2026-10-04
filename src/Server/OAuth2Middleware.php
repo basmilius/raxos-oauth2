@@ -5,8 +5,11 @@ namespace Raxos\OAuth2\Server;
 
 use Closure;
 use Raxos\Contract\Router\MiddlewareInterface;
-use Raxos\Http\{HttpRequest, HttpResponse};
-use Raxos\OAuth2\Server\Error\{InvalidClientException, InvalidRequestException, InvalidTokenException};
+use Raxos\Http\HttpRequest;
+use Raxos\Http\HttpResponse;
+use Raxos\OAuth2\Server\Error\InvalidClientException;
+use Raxos\OAuth2\Server\Error\InvalidRequestException;
+use Raxos\OAuth2\Server\Error\InvalidTokenException;
 use Raxos\Router\Responds;
 
 /**
@@ -31,14 +34,19 @@ abstract readonly class OAuth2Middleware implements MiddlewareInterface
      */
     public function __construct(
         protected OAuth2Server $oAuth2
-    ) {}
+    )
+    {
+    }
 
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.16
      */
-    public function handle(HttpRequest $request, Closure $next): HttpResponse
+    public function handle(
+        HttpRequest $request,
+        Closure $next
+    ): HttpResponse
     {
         $authorization = $request->bearerToken();
 
@@ -66,5 +74,4 @@ abstract readonly class OAuth2Middleware implements MiddlewareInterface
 
         return $next($request);
     }
-
 }

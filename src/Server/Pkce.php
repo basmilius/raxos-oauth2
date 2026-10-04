@@ -10,6 +10,8 @@ use function hash_equals;
 use function preg_match;
 
 /**
+ * Class Pkce
+ *
  * S256 is required so authorization requests never expose the verifier.
  *
  * @author Bas Milius <bas@mili.us>
@@ -18,6 +20,8 @@ use function preg_match;
 final class Pkce
 {
     /**
+     * Derives the S256 challenge using unpadded URL-safe Base64.
+     *
      * @param mixed $challenge
      * @param mixed $method
      * @return string
@@ -25,7 +29,10 @@ final class Pkce
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0
      */
-    public static function challenge(mixed $challenge, mixed $method): string
+    public static function challenge(
+        mixed $challenge,
+        mixed $method
+    ): string
     {
         if ($method !== 'S256' || !is_string($challenge) || !preg_match('/^[A-Za-z0-9_-]{43}$/D', $challenge)) {
             throw new InvalidRequestException('A valid S256 code_challenge is required.');
@@ -35,13 +42,18 @@ final class Pkce
     }
 
     /**
+     * Checks an S256 verifier without accepting downgrade to the plain challenge method.
+     *
      * @param mixed $verifier
      * @param string|null $challenge
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0
      */
-    public static function verify(mixed $verifier, ?string $challenge): bool
+    public static function verify(
+        mixed $verifier,
+        ?string $challenge
+    ): bool
     {
         return $challenge !== null
             && is_string($verifier)

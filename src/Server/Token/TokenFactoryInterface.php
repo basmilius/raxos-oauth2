@@ -14,7 +14,6 @@ use Raxos\OAuth2\Server\Client\ClientInterface;
  */
 interface TokenFactoryInterface
 {
-
     /**
      * Generates a new access token.
      *
@@ -63,7 +62,10 @@ interface TokenFactoryInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function getAccessTokenByAssociatedToken(ClientInterface $client, string $token): ?AccessTokenInterface;
+    public function getAccessTokenByAssociatedToken(
+        ClientInterface $client,
+        string $token
+    ): ?AccessTokenInterface;
 
     /**
      * Gets an authorization code instance.
@@ -75,7 +77,10 @@ interface TokenFactoryInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function getAuthorizationCode(ClientInterface $client, string $code): ?AuthorizationCodeInterface;
+    public function getAuthorizationCode(
+        ClientInterface $client,
+        string $code
+    ): ?AuthorizationCodeInterface;
 
     /**
      * Gets a refresh token instance.
@@ -87,7 +92,10 @@ interface TokenFactoryInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function getRefreshToken(ClientInterface $client, string $token): ?RefreshTokenInterface;
+    public function getRefreshToken(
+        ClientInterface $client,
+        string $token
+    ): ?RefreshTokenInterface;
 
     /**
      * Revokes the given access token.
@@ -98,7 +106,10 @@ interface TokenFactoryInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function revokeAccessToken(ClientInterface $client, AccessTokenInterface $accessToken): void;
+    public function revokeAccessToken(
+        ClientInterface $client,
+        AccessTokenInterface $accessToken
+    ): void;
 
     /**
      * Revokes the given authorization code.
@@ -109,7 +120,10 @@ interface TokenFactoryInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function revokeAuthorizationCode(ClientInterface $client, AuthorizationCodeInterface $authorizationCode): void;
+    public function revokeAuthorizationCode(
+        ClientInterface $client,
+        AuthorizationCodeInterface $authorizationCode
+    ): void;
 
     /**
      * Revokes the given refresh token.
@@ -120,7 +134,10 @@ interface TokenFactoryInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function revokeRefreshToken(ClientInterface $client, RefreshTokenInterface $refreshToken): void;
+    public function revokeRefreshToken(
+        ClientInterface $client,
+        RefreshTokenInterface $refreshToken
+    ): void;
 
     /**
      * Saves a new access token for the given client and owner with
@@ -136,7 +153,14 @@ interface TokenFactoryInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function saveAccessToken(ClientInterface $client, mixed $owner, string $scope, string $accessToken, int $expiresIn, ?string $refreshToken): void;
+    public function saveAccessToken(
+        ClientInterface $client,
+        mixed $owner,
+        string $scope,
+        string $accessToken,
+        int $expiresIn,
+        ?string $refreshToken
+    ): void;
 
     /**
      * Saves a new authorization code for the given client and owner
@@ -152,9 +176,17 @@ interface TokenFactoryInterface
      * @param string|null $codeChallenge
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.16
      */
-    public function saveAuthorizationCode(ClientInterface $client, mixed $owner, string $redirectUri, string $scope, string $authorizationCode, ?string $state = null, ?string $codeChallenge = null): void;
+    public function saveAuthorizationCode(
+        ClientInterface $client,
+        mixed $owner,
+        string $redirectUri,
+        string $scope,
+        string $authorizationCode,
+        ?string $state = null,
+        ?string $codeChallenge = null
+    ): void;
 
     /**
      * Saves a new refresh token for the given client and owner with
@@ -168,7 +200,12 @@ interface TokenFactoryInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public function saveRefreshToken(ClientInterface $client, mixed $owner, string $scope, string $refreshToken): void;
+    public function saveRefreshToken(
+        ClientInterface $client,
+        mixed $owner,
+        string $scope,
+        string $refreshToken
+    ): void;
 
     /**
      * Atomically consumes an unexpired code belonging to this client, returning false
@@ -180,6 +217,8 @@ interface TokenFactoryInterface
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0
      */
-    public function consumeAuthorizationCode(ClientInterface $client, AuthorizationCodeInterface $authorizationCode): bool;
-
+    public function consumeAuthorizationCode(
+        ClientInterface $client,
+        AuthorizationCodeInterface $authorizationCode
+    ): bool;
 }
