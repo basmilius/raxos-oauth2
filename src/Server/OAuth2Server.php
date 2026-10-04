@@ -24,6 +24,7 @@ use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
  */
 abstract class OAuth2Server
 {
+
     /**
      * Controls enabled grants, response types and token lifetimes without changing legacy defaults.
      *
@@ -101,4 +102,5 @@ abstract class OAuth2Server
      * @since 1.0.16
      */
     public abstract function hasOwner(): bool;
+
 }

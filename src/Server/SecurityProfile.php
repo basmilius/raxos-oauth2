@@ -17,6 +17,7 @@ use function in_array;
  */
 final readonly class SecurityProfile
 {
+
     /**
      * Selects allowed grants and response types; refresh rotation requires an atomic token factory.
      *
@@ -66,4 +67,5 @@ final readonly class SecurityProfile
     {
         return new self(responseTypes: ['code'], accessTokenLifetime: $accessTokenLifetime, refreshRotation: true);
     }
+
 }

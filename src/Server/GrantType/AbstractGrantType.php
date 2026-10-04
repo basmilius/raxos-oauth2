@@ -19,6 +19,7 @@ use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
  */
 class AbstractGrantType implements GrantTypeInterface
 {
+
     /**
      * AbstractGrantType constructor.
      *
@@ -35,6 +36,7 @@ class AbstractGrantType implements GrantTypeInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
@@ -45,4 +47,5 @@ class AbstractGrantType implements GrantTypeInterface
     {
         return new NotFoundHttpResponse();
     }
+
 }

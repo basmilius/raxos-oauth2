@@ -9,6 +9,7 @@ use Raxos\OAuth2\Server\OAuth2Controller;
 
 final readonly class Controller extends OAuth2Controller
 {
+
     protected function onAuthorizeMissingOwner(): HttpResponse
     {
         return new NoContentHttpResponse();
@@ -18,4 +19,5 @@ final readonly class Controller extends OAuth2Controller
     {
         return new NoContentHttpResponse();
     }
+
 }

@@ -2,9 +2,9 @@
 declare(strict_types=1);
 
 use Raxos\Http\HttpRequest;
-use Raxos\Http\Structure\{HttpPostMap};
+use Raxos\Http\Structure\HttpPostMap;
 use Raxos\OAuth2\Server\Client\ClientInterface;
-use Raxos\OAuth2\Server\Error\{InvalidGrantException};
+use Raxos\OAuth2\Server\Error\{InvalidGrantException, RedirectUriMismatchException};
 use Raxos\OAuth2\Server\GrantType\AuthorizationCodeGrantType;
 use Raxos\OAuth2\Server\Token\{AuthorizationCodeInterface, TokenFactoryInterface};
 
@@ -63,5 +63,5 @@ it('rejects invalid code redemption before consuming a code or issuing a token',
     expect(fn(): mixed => new AuthorizationCodeGrantType($factory)->handle($request, $client))->toThrow($exception);
 })->with([
     ['expired', InvalidGrantException::class], ['other-client', InvalidGrantException::class],
-    ['missing-code', InvalidGrantException::class], ['redirect', Raxos\OAuth2\Server\Error\RedirectUriMismatchException::class], ['verifier', InvalidGrantException::class],
+    ['missing-code', InvalidGrantException::class], ['redirect', RedirectUriMismatchException::class], ['verifier', InvalidGrantException::class],
 ]);

@@ -321,4 +321,5 @@ abstract readonly class OAuth2Controller
 
         return [$client, $grantType];
     }
+
 }

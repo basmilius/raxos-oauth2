@@ -14,6 +14,7 @@ use Raxos\OAuth2\Server\Client\ClientInterface;
  */
 interface TokenFactoryInterface
 {
+
     /**
      * Generates a new access token.
      *
@@ -222,4 +223,5 @@ interface TokenFactoryInterface
         ClientInterface $client,
         AuthorizationCodeInterface $authorizationCode
     ): bool;
+
 }

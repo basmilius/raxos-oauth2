@@ -19,6 +19,7 @@ use Raxos\OAuth2\Server\Token\TokenFactoryInterface;
  */
 abstract class AbstractResponseType implements ResponseTypeInterface
 {
+
     /**
      * AbstractResponseType constructor.
      *
@@ -35,6 +36,7 @@ abstract class AbstractResponseType implements ResponseTypeInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
@@ -49,4 +51,5 @@ abstract class AbstractResponseType implements ResponseTypeInterface
     {
         return new NotFoundHttpResponse();
     }
+
 }

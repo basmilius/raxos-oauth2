@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-use Raxos\OAuth2\Server\Error\{InvalidRequestException};
+use Raxos\OAuth2\Server\Error\InvalidRequestException;
 use Raxos\OAuth2\Server\Pkce;
+use Raxos\Security\Base64;
 
 covers(Pkce::class);
 
@@ -20,6 +21,6 @@ it('rejects malformed PKCE challenges', function (mixed $challenge, mixed $metho
 })->with([[null, 'S256'], ['', 'S256'], [str_repeat('x', 42), 'S256'], [str_repeat('!', 43), 'S256'], [[], 'S256'], [str_repeat('x', 43), null]]);
 
 it('accepts verifier boundary lengths and rejects invalid verifier input', function (mixed $verifier, bool $valid): void {
-    $challenge = is_string($verifier) ? Raxos\Security\Base64::encodeUrlSafe(hash('sha256', $verifier, true)) : str_repeat('x', 43);
+    $challenge = is_string($verifier) ? Base64::encodeUrlSafe(hash('sha256', $verifier, true)) : str_repeat('x', 43);
     expect(Pkce::verify($verifier, $challenge))->toBe($valid);
 })->with([[str_repeat('a', 42), false], [str_repeat('a', 43), true], [str_repeat('a', 128), true], [str_repeat('a', 129), false], [str_repeat('!', 43), false], [null, false], [[], false]]);

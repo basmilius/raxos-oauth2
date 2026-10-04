@@ -14,6 +14,7 @@ use Throwable;
 
 final readonly class RotationClient implements ClientInterface
 {
+
     public function __construct(private string $id = 'client') {}
 
     public function getClientId(): string
@@ -30,10 +31,12 @@ final readonly class RotationClient implements ClientInterface
     {
         return false;
     }
+
 }
 
 final readonly class StoredRefreshToken implements RefreshTokenInterface
 {
+
     public function __construct(private array $row) {}
 
     public function getClientId(): string
@@ -65,10 +68,12 @@ final readonly class StoredRefreshToken implements RefreshTokenInterface
     {
         return in_array($scope, explode(' ', $this->row['scope']), true);
     }
+
 }
 
 final class AtomicRefreshStore implements RotatingTokenFactoryInterface
 {
+
     public readonly PDO $pdo;
 
     public function __construct(string $path, private ?string $barrier = null, private ?string $worker = null)
@@ -207,4 +212,5 @@ final class AtomicRefreshStore implements RotatingTokenFactoryInterface
     {
         throw new LogicException('Not used by rotation.');
     }
+
 }

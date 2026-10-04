@@ -12,6 +12,7 @@ namespace Raxos\OAuth2\Server\Token;
  */
 interface AuthorizationCodeInterface extends TokenInterface
 {
+
     /**
      * Gets the redirect uri.
      *
@@ -29,4 +30,5 @@ interface AuthorizationCodeInterface extends TokenInterface
      * @since 3.2.0
      */
     public function getCodeChallenge(): ?string;
+
 }

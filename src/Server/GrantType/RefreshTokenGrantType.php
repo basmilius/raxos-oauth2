@@ -15,7 +15,6 @@ use Raxos\Router\Responds;
 use function is_string;
 use function preg_split;
 
-
 /**
  * Class RefreshTokenGrantType
  *
@@ -30,6 +29,7 @@ final class RefreshTokenGrantType extends AbstractGrantType
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
@@ -97,4 +97,5 @@ final class RefreshTokenGrantType extends AbstractGrantType
             'expires_in' => $this->profile->accessTokenLifetime
         ]);
     }
+
 }

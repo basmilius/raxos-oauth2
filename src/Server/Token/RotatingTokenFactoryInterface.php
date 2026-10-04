@@ -16,6 +16,7 @@ use Raxos\OAuth2\Server\Client\ClientInterface;
  */
 interface RotatingTokenFactoryInterface extends TokenFactoryInterface
 {
+
     /**
      * Atomically rechecks client, expiry and active family, consumes the previous token and persists both replacements. On reuse, revokes the entire family before returning false. Retain consumed tokens for replay detection; never implement this as separate read/delete/save operations.
      *
@@ -38,4 +39,5 @@ interface RotatingTokenFactoryInterface extends TokenFactoryInterface
         string $scope,
         int $expiresIn
     ): bool;
+
 }

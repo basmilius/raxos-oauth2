@@ -38,6 +38,7 @@ abstract readonly class OAuth2Middleware implements MiddlewareInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
@@ -72,4 +73,5 @@ abstract readonly class OAuth2Middleware implements MiddlewareInterface
 
         return $next($request);
     }
+
 }

@@ -19,6 +19,7 @@ use function preg_match;
  */
 final class Pkce
 {
+
     /**
      * Derives the S256 challenge using unpadded URL-safe Base64.
      *
@@ -62,4 +63,5 @@ final class Pkce
             && preg_match('/^[A-Za-z0-9._~-]{43,128}$/D', $verifier)
             && hash_equals($challenge, Base64::encodeUrlSafe(hash('sha256', $verifier, true)));
     }
+
 }

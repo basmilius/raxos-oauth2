@@ -26,6 +26,7 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
@@ -69,4 +70,5 @@ final class AuthorizationCodeGrantType extends AbstractGrantType
             'refresh_token' => $refreshToken
         ]);
     }
+
 }

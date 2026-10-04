@@ -24,6 +24,7 @@ final class TokenResponseType extends AbstractResponseType
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
@@ -48,4 +49,5 @@ final class TokenResponseType extends AbstractResponseType
             responseCode: HttpResponseCode::SEE_OTHER
         );
     }
+
 }
