@@ -64,7 +64,8 @@ it('allows one concurrent refresh and revokes the entire token family after reus
 
             foreach ($pipes as $pipe) {
                 fclose($pipe);
-            } proc_close($process);
+            }
+            proc_close($process);
         }
 
         foreach (glob($path . '*') as $file) {

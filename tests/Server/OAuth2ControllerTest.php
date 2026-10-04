@@ -13,17 +13,18 @@ function oauthControllerUnitContext(mixed $owner = 'owner'): array
 {
     $client = test()->createMock(ClientInterface::class);
     $client->method('getClientId')->willReturn('client');
-    $client->method('isSecretValid')->willReturnCallback(static fn (string $secret): bool => $secret === 'secret');
-    $client->method('isRedirectUriAllowed')->willReturnCallback(static fn (string $uri): bool => str_starts_with($uri, 'https://example.org/callback'));
+    $client->method('isSecretValid')->willReturnCallback(static fn(string $secret): bool => $secret === 'secret');
+    $client->method('isRedirectUriAllowed')->willReturnCallback(static fn(string $uri): bool => str_starts_with($uri, 'https://example.org/callback'));
     $clients = test()->createMock(Raxos\OAuth2\Server\Client\ClientFactoryInterface::class);
-    $clients->method('getClient')->willReturnCallback(static fn (string $id): ?ClientInterface => $id === 'client' ? $client : null);
+    $clients->method('getClient')->willReturnCallback(static fn(string $id): ?ClientInterface => $id === 'client' ? $client : null);
     $tokens = test()->createMock(TokenFactoryInterface::class);
     $scopes = test()->createMock(Raxos\OAuth2\Server\Scope\ScopeFactoryInterface::class);
-    $scopes->method('convertScopeString')->willReturnCallback(static fn (string $scope): array => explode(' ', $scope));
+    $scopes->method('convertScopeString')->willReturnCallback(static fn(string $scope): array => explode(' ', $scope));
     $scope = test()->createMock(Raxos\OAuth2\Server\Scope\ScopeInterface::class);
     $scope->method('getKey')->willReturn('read');
     $scopes->method('convertScopes')->willReturn([$scope]);
     $server = new RaxosTests\OAuth2\UnitServer($clients, $scopes, $tokens, $owner);
+
     return [new RaxosTests\OAuth2\ContextController($server), $client, $clients, $tokens, $scopes, $scope];
 }
 
@@ -57,7 +58,7 @@ it('rejects missing authorization parameters before rendering consent', function
     [$controller] = oauthControllerUnitContext();
     $query = oauthControllerUnitQuery();
     unset($query[$missing]);
-    expect(fn () => $controller->getAuthorize(HttpRequest::create(query: new HttpQueryMap($query))))->toThrow(InvalidRequestException::class);
+    expect(fn() => $controller->getAuthorize(HttpRequest::create(query: new HttpQueryMap($query))))->toThrow(InvalidRequestException::class);
 })->with(['client_id', 'redirect_uri', 'response_type', 'scope', 'code_challenge', 'code_challenge_method']);
 
 it('rejects unknown clients, disallowed redirects and unsupported response types', function (string $key, string $value, string $error): void {
@@ -65,14 +66,14 @@ it('rejects unknown clients, disallowed redirects and unsupported response types
     $tokens->expects($this->never())->method('generateAuthorizationCode');
     $query = oauthControllerUnitQuery();
     $query[$key] = $value;
-    expect(fn () => $controller->getAuthorize(HttpRequest::create(query: new HttpQueryMap($query))))->toThrow($error);
+    expect(fn() => $controller->getAuthorize(HttpRequest::create(query: new HttpQueryMap($query))))->toThrow($error);
 })->with([['client_id', 'missing', Raxos\OAuth2\Server\Error\InvalidClientException::class], ['redirect_uri', 'https://attacker.example', Raxos\OAuth2\Server\Error\RedirectUriMismatchException::class], ['response_type', 'unknown', Raxos\OAuth2\Server\Error\UnsupportedGrantTypeException::class]]);
 
 it('propagates scope validation failures before rendering or generating tokens', function (): void {
     [$controller, , , $tokens, $scopes] = oauthControllerUnitContext();
     $scopes->method('ensureValidScopes')->willThrowException(new Raxos\OAuth2\Server\Error\InvalidScopeException('Invalid scope'));
     $tokens->expects($this->never())->method('generateAuthorizationCode');
-    expect(fn () => $controller->getAuthorize(HttpRequest::create(query: new HttpQueryMap(oauthControllerUnitQuery()))))->toThrow(Raxos\OAuth2\Server\Error\InvalidScopeException::class);
+    expect(fn() => $controller->getAuthorize(HttpRequest::create(query: new HttpQueryMap(oauthControllerUnitQuery()))))->toThrow(Raxos\OAuth2\Server\Error\InvalidScopeException::class);
 });
 
 it('redirects denied consent with encoded state and no token side effects', function (): void {
@@ -106,13 +107,13 @@ it('issues the selected response type after consent', function (string $response
 it('authenticates token requests and rejects missing or unsupported grant types', function (?string $grant, string $error): void {
     [$controller] = oauthControllerUnitContext();
     $request = HttpRequest::create(headers: new Raxos\Http\Structure\HttpHeadersMap(['authorization' => ['Basic ' . base64_encode('client:secret')]]), post: new HttpPostMap($grant === null ? [] : ['grant_type' => $grant]));
-    expect(fn () => $controller->postToken($request))->toThrow($error);
+    expect(fn() => $controller->postToken($request))->toThrow($error);
 })->with([[null, InvalidRequestException::class], ['unsupported', Raxos\OAuth2\Server\Error\UnsupportedGrantTypeException::class], ['authorization_code', InvalidRequestException::class]]);
 
 it('rejects malformed Basic authentication as an OAuth client error', function (?string $authorization, string $error): void {
     [$controller] = oauthControllerUnitContext();
     $request = HttpRequest::create(headers: new Raxos\Http\Structure\HttpHeadersMap($authorization === null ? [] : ['authorization' => [$authorization]]));
-    expect(fn () => $controller->postRevoke($request))->toThrow($error);
+    expect(fn() => $controller->postRevoke($request))->toThrow($error);
 })->with([[null, InvalidRequestException::class], ['Bearer access', Raxos\OAuth2\Server\Error\InvalidClientException::class], ['Basic', Raxos\OAuth2\Server\Error\InvalidClientException::class], ['Basic %%%', Raxos\OAuth2\Server\Error\InvalidClientException::class], ['Basic ' . base64_encode('without-colon'), Raxos\OAuth2\Server\Error\InvalidClientException::class], ['Basic ' . base64_encode('client:wrong'), Raxos\OAuth2\Server\Error\InvalidClientException::class], ['Basic ' . base64_encode('missing:secret'), Raxos\OAuth2\Server\Error\InvalidClientException::class]]);
 
 it('accepts Basic scheme case and authenticates before a revocation acknowledgement', function (string $scheme): void {

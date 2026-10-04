@@ -31,9 +31,7 @@ class AbstractGrantType implements GrantTypeInterface
     public function __construct(
         protected readonly TokenFactoryInterface $tokenFactory,
         protected readonly SecurityProfile $profile = new SecurityProfile()
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

@@ -48,9 +48,7 @@ abstract readonly class OAuth2Controller
      */
     public function __construct(
         public OAuth2Server $oAuth2
-    )
-    {
-    }
+    ) {}
 
     /**
      * Invoked when GET /authorize is requested.

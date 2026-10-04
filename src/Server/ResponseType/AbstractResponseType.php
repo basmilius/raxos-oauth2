@@ -31,9 +31,7 @@ abstract class AbstractResponseType implements ResponseTypeInterface
     public function __construct(
         protected readonly TokenFactoryInterface $tokenFactory,
         protected readonly SecurityProfile $profile = new SecurityProfile()
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

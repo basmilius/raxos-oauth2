@@ -25,6 +25,7 @@ interface RotatingTokenFactoryInterface extends TokenFactoryInterface
      * @param string $refreshToken
      * @param string $scope
      * @param int $expiresIn
+     *
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0

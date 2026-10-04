@@ -24,6 +24,7 @@ final readonly class SecurityProfile
      * @param list<string> $responseTypes
      * @param int $accessTokenLifetime
      * @param bool $refreshRotation
+     *
      * @throws InvalidArgumentException
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0
@@ -56,6 +57,7 @@ final readonly class SecurityProfile
      * Disables implicit authorization and requires atomic refresh rotation.
      *
      * @param int $accessTokenLifetime
+     *
      * @return self
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0

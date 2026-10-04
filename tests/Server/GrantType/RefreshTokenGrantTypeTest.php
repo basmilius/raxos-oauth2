@@ -39,5 +39,5 @@ it('rejects missing, unknown, expired and mismatched tokens before issuing acces
     $tokens->method('getRefreshToken')->willReturn($case === 'unknown' ? null : $refresh);
     $tokens->expects($this->never())->method('generateAccessToken');
     $post = $case === 'missing' ? [] : ['refresh_token' => 'refresh'];
-    expect(fn () => new RefreshTokenGrantType($tokens)->handle(HttpRequest::create(post: new HttpPostMap($post)), $client))->toThrow($error);
+    expect(fn() => new RefreshTokenGrantType($tokens)->handle(HttpRequest::create(post: new HttpPostMap($post)), $client))->toThrow($error);
 })->with([['missing', InvalidRequestException::class], ['unknown', InvalidGrantException::class], ['expired', InvalidGrantException::class], ['other-client', InvalidGrantException::class]]);

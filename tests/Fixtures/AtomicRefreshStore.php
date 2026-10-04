@@ -14,9 +14,7 @@ use Throwable;
 
 final readonly class RotationClient implements ClientInterface
 {
-    public function __construct(private string $id = 'client')
-    {
-    }
+    public function __construct(private string $id = 'client') {}
 
     public function getClientId(): string
     {
@@ -36,9 +34,7 @@ final readonly class RotationClient implements ClientInterface
 
 final readonly class StoredRefreshToken implements RefreshTokenInterface
 {
-    public function __construct(private array $row)
-    {
-    }
+    public function __construct(private array $row) {}
 
     public function getClientId(): string
     {

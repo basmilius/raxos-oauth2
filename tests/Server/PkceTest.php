@@ -12,11 +12,11 @@ it('matches the RFC7636 S256 test vector and rejects missing or invalid proof', 
     expect(Pkce::verify($verifier, $challenge))->toBeTrue();
     expect(Pkce::verify('incorrect', $challenge))->toBeFalse();
     expect(Pkce::verify($verifier, null))->toBeFalse();
-    expect(fn () => Pkce::challenge($challenge, 'plain'))->toThrow(InvalidRequestException::class);
+    expect(fn() => Pkce::challenge($challenge, 'plain'))->toThrow(InvalidRequestException::class);
 });
 
 it('rejects malformed PKCE challenges', function (mixed $challenge, mixed $method): void {
-    expect(fn (): string => Pkce::challenge($challenge, $method))->toThrow(InvalidRequestException::class);
+    expect(fn(): string => Pkce::challenge($challenge, $method))->toThrow(InvalidRequestException::class);
 })->with([[null, 'S256'], ['', 'S256'], [str_repeat('x', 42), 'S256'], [str_repeat('!', 43), 'S256'], [[], 'S256'], [str_repeat('x', 43), null]]);
 
 it('accepts verifier boundary lengths and rejects invalid verifier input', function (mixed $verifier, bool $valid): void {

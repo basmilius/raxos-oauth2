@@ -68,6 +68,7 @@ abstract class OAuth2Server
      * Validates the persistence capability before enabling refresh-token rotation.
      *
      * @param SecurityProfile $profile
+     *
      * @return static
      * @throws InvalidArgumentException
      * @author Bas Milius <bas@mili.us>

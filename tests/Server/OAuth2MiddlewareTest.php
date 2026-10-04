@@ -24,6 +24,7 @@ it('accepts valid bearer tokens using the HTTP request parsing rules', function 
     $response = new NoContentHttpResponse();
     expect($middleware->handle($request, static function (HttpRequest $actual) use ($request, $response): NoContentHttpResponse {
         expect($actual)->toBe($request);
+
         return $response;
     }))->toBe($response);
 })->with(['Bearer access', 'bearer access', 'BEARER  access']);
@@ -41,6 +42,6 @@ it('rejects invalid credentials before running the protected handler', function 
     }
     $headers = $case === 'missing' ? [] : ['authorization' => [$case === 'malformed' ? 'Basic invalid' : 'Bearer access']];
     $middleware = new UnitMiddleware(new UnitServer($clients, $this->createMock(ScopeFactoryInterface::class), $tokens));
-    $response = $middleware->handle(HttpRequest::create(headers: new HttpHeadersMap($headers)), static fn (): never => throw new LogicException('Must not run protected handler.'));
+    $response = $middleware->handle(HttpRequest::create(headers: new HttpHeadersMap($headers)), static fn(): never => throw new LogicException('Must not run protected handler.'));
     expect($response->responseCode)->toBe($status)->and($response->body->jsonSerialize()['error'])->toBe($error);
 })->with([['missing', HttpResponseCode::BAD_REQUEST, 'invalid_request'], ['malformed', HttpResponseCode::BAD_REQUEST, 'invalid_request'], ['unknown', HttpResponseCode::UNAUTHORIZED, 'invalid_token'], ['expired', HttpResponseCode::UNAUTHORIZED, 'invalid_token'], ['client', HttpResponseCode::UNAUTHORIZED, 'invalid_client']]);

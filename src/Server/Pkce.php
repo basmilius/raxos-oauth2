@@ -24,6 +24,7 @@ final class Pkce
      *
      * @param mixed $challenge
      * @param mixed $method
+     *
      * @return string
      * @throws InvalidRequestException
      * @author Bas Milius <bas@mili.us>
@@ -46,6 +47,7 @@ final class Pkce
      *
      * @param mixed $verifier
      * @param string|null $challenge
+     *
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0

@@ -213,6 +213,7 @@ interface TokenFactoryInterface
      *
      * @param ClientInterface $client
      * @param AuthorizationCodeInterface $authorizationCode
+     *
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0

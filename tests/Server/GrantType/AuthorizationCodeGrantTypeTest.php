@@ -28,6 +28,7 @@ it('consumes a code atomically before issuing tokens and rejects a concurrent re
     $factory->method('consumeAuthorizationCode')->willReturnCallback(static function () use ($storage): bool {
         $claim = $storage->prepare('DELETE FROM codes WHERE token = ? AND client = ?');
         $claim->execute(['one-use', 'client']);
+
         return $claim->rowCount() === 1;
     });
     $factory->expects($this->once())->method('generateAccessToken')->willReturn('access');
@@ -37,7 +38,7 @@ it('consumes a code atomically before issuing tokens and rejects a concurrent re
     $request = HttpRequest::create(post: new HttpPostMap(['code' => 'one-use', 'redirect_uri' => 'https://example.org/callback', 'code_verifier' => $verifier]));
     $grant = new AuthorizationCodeGrantType($factory);
     expect($grant->handle($request, $client)->body['access_token'])->toBe('access');
-    expect(fn () => $grant->handle($request, $client))->toThrow(InvalidGrantException::class);
+    expect(fn() => $grant->handle($request, $client))->toThrow(InvalidGrantException::class);
 });
 
 it('rejects invalid code redemption before consuming a code or issuing a token', function (string $case, string $exception): void {
@@ -59,7 +60,7 @@ it('rejects invalid code redemption before consuming a code or issuing a token',
         $post['code_verifier'] = str_repeat('x', 43);
     }
     $request = HttpRequest::create(post: new HttpPostMap($post));
-    expect(fn (): mixed => new AuthorizationCodeGrantType($factory)->handle($request, $client))->toThrow($exception);
+    expect(fn(): mixed => new AuthorizationCodeGrantType($factory)->handle($request, $client))->toThrow($exception);
 })->with([
     ['expired', InvalidGrantException::class], ['other-client', InvalidGrantException::class],
     ['missing-code', InvalidGrantException::class], ['redirect', Raxos\OAuth2\Server\Error\RedirectUriMismatchException::class], ['verifier', InvalidGrantException::class],

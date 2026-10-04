@@ -21,6 +21,7 @@ final class UnitServer extends OAuth2Server
     {
         return $this->owner;
     }
+
     public function hasOwner(): bool
     {
         return $this->owner !== null;
@@ -33,12 +34,11 @@ final readonly class ContextController extends OAuth2Controller
     {
         return new NoContentHttpResponse();
     }
+
     protected function renderAuthorize(array $context): HttpResponse
     {
         return new ResultHttpResponse($context);
     }
 }
 
-final readonly class UnitMiddleware extends OAuth2Middleware
-{
-}
+final readonly class UnitMiddleware extends OAuth2Middleware {}
